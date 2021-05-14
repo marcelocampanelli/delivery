@@ -17,6 +17,7 @@ gem 'rspec-rails', '~> 4.0.1'
 gem 'jaro_winkler'
 gem 'aws-sdk-sqs'
 gem 'rest-client'
+gem 'figaro'
 
 group :test do
   gem 'shoulda-matchers', '~> 4.0'
