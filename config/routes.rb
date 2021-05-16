@@ -3,5 +3,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :orders, only: [:create]
     end
+    namespace :v2 do
+      resources :orders, only: [:create]
+    end
   end
 end
