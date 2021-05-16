@@ -45,8 +45,6 @@ ActiveRecord::Schema.define(version: 2021_05_16_133749) do
     t.float "total"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "sub_items_id"
-    t.index ["sub_items_id"], name: "index_items_on_sub_items_id"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -72,23 +70,12 @@ ActiveRecord::Schema.define(version: 2021_05_16_133749) do
   end
 
   create_table "payments", force: :cascade do |t|
-    t.string "type"
+    t.string "modality"
     t.float "value"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "sub_items", force: :cascade do |t|
-    t.string "external_code"
-    t.string "name"
-    t.float "price"
-    t.integer "quantity"
-    t.float "total"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  add_foreign_key "items", "sub_items", column: "sub_items_id"
   add_foreign_key "orders", "addresses"
   add_foreign_key "orders", "customers", column: "customers_id"
   add_foreign_key "orders", "items", column: "items_id"
