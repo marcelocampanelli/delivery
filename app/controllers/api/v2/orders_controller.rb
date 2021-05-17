@@ -4,7 +4,7 @@ class Api::V2::OrdersController < ApplicationController
   def create
     ActiveRecord::Base.transaction do
       run
-      render json: { response: @sent }
+      render json: { response: 'OK!' }
     end
   rescue ActiveRecord::RecordInvalid
     render json: { response: "Something's not right, check yours params" }
@@ -15,7 +15,7 @@ class Api::V2::OrdersController < ApplicationController
   def run
     make_parse
     get_token
-    @sent = send_order 
+    @sent = send_order
     create_order
   end
 
