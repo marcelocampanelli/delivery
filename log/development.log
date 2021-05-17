@@ -8785,3 +8785,1515 @@ Processing by Api::V2::OrdersController#create as */*
 Completed 200 OK in 658ms (Views: 0.5ms | ActiveRecord: 6.6ms | Allocations: 7943)
 
 
+Started POST "/api/v2/orders" for ::1 at 2021-05-17 20:39:50 -0300
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Api::V2::OrdersController#create as */*
+  Parameters: {"id"=>9987071, "store_id"=>282, "date_created"=>"2019-06-24T16:45:32.000-04:00", "date_closed"=>"2019-06-24T16:45:35.000-04:00", "last_updated"=>"2019-06-25T13:26:49.000-04:00", "total_amount"=>49.9, "total_shipping"=>5.14, "total_amount_with_shipping"=>55.04, "paid_amount"=>55.04, "expiration_date"=>"2019-07-22T16:45:35.000-04:00", "order_items"=>[{"item"=>{"id"=>"IT4801901403", "title"=>"Produto de Testes"}, "quantity"=>1, "unit_price"=>49.9, "full_unit_price"=>49.9}], "payments"=>[{"id"=>12312313, "order_id"=>9987071, "payer_id"=>414138, "installments"=>1, "payment_type"=>"credit_card", "status"=>"paid", "transaction_amount"=>49.9, "taxes_amount"=>0, "shipping_cost"=>5.14, "total_paid_amount"=>55.04, "installment_amount"=>55.04, "date_approved"=>"2019-06-24T16:45:35.000-04:00", "date_created"=>"2019-06-24T16:45:33.000-04:00"}], "shipping"=>{"id"=>43444211797, "shipment_type"=>"shipping", "date_created"=>"2019-06-24T16:45:33.000-04:00", "receiver_address"=>{"id"=>1051695306, "address_line"=>"Rua de Testes Fake 3454", "street_name"=>"Rua de Testes Fake", "street_number"=>"3454", "comment"=>"galpao", "zip_code"=>"85045020", "city"=>{"name"=>"Cidade de Testes"}, "state"=>{"id"=>"SP", "name"=>"São Paulo"}, "country"=>{"id"=>"BR", "name"=>"Brasil"}, "neighborhood"=>{"id"=>nil, "name"=>"Vila de Testes"}, "latitude"=>-23.629037, "longitude"=>-46.712689, "receiver_phone"=>"41999999999"}}, "status"=>"paid", "buyer"=>{"id"=>136226073, "nickname"=>"JOHN DOE", "email"=>"john@doe.com", "phone"=>{"area_code"=>41, "number"=>"999999999"}, "first_name"=>"John", "last_name"=>"Doe", "billing_info"=>{"doc_type"=>"CPF", "doc_number"=>"09487965477"}}, "order"=>{"id"=>9987071, "store_id"=>282, "total_shipping"=>5.14}}
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mAddress Load (0.9ms)[0m  [1m[34mSELECT "addresses".* FROM "addresses" WHERE "addresses"."country" = $1 AND "addresses"."state" = $2 AND "addresses"."city" = $3 AND "addresses"."district" = $4 AND "addresses"."street" = $5 AND "addresses"."complement" = $6 AND "addresses"."latitude" = $7 AND "addresses"."longitude" = $8 LIMIT $9[0m  [["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["LIMIT", 1]]
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mAddress Create (0.8ms)[0m  [1m[32mINSERT INTO "addresses" ("country", "state", "city", "district", "street", "complement", "latitude", "longitude", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["created_at", "2021-05-17 23:39:51.442906"], ["updated_at", "2021-05-17 23:39:51.442906"]]
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mCustomer Load (0.7ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."external_code" = $1 AND "customers"."name" = $2 AND "customers"."email" = $3 AND "customers"."contact" = $4 LIMIT $5[0m  [["external_code", "136226073"], ["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["LIMIT", 1]]
+  ↳ app/services/Create/Customer.rb:10:in `create'
+  [1m[36mCustomer Create (0.7ms)[0m  [1m[32mINSERT INTO "customers" ("name", "email", "contact", "created_at", "updated_at", "external_code") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["created_at", "2021-05-17 23:39:51.471186"], ["updated_at", "2021-05-17 23:39:51.471186"], ["external_code", "136226073"]]
+  ↳ app/services/Create/Customer.rb:10:in `create'
+  [1m[36mItem Load (0.5ms)[0m  [1m[34mSELECT "items".* FROM "items" WHERE "items"."external_code" = $1 AND "items"."name" = $2 AND "items"."price" = $3 AND "items"."quantity" = $4 AND "items"."total" = $5 LIMIT $6[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["LIMIT", 1]]
+  ↳ app/services/Create/Item.rb:11:in `block in create'
+  [1m[36mItem Create (0.4ms)[0m  [1m[32mINSERT INTO "items" ("external_code", "name", "price", "quantity", "total", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["created_at", "2021-05-17 23:39:51.491332"], ["updated_at", "2021-05-17 23:39:51.491332"]]
+  ↳ app/services/Create/Item.rb:11:in `block in create'
+  [1m[36mPayment Load (0.3ms)[0m  [1m[34mSELECT "payments".* FROM "payments" WHERE "payments"."modality" = $1 AND "payments"."value" = $2 LIMIT $3[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["LIMIT", 1]]
+  ↳ app/services/Create/Payment.rb:11:in `block in create'
+  [1m[36mPayment Create (0.4ms)[0m  [1m[32mINSERT INTO "payments" ("modality", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["created_at", "2021-05-17 23:39:51.505009"], ["updated_at", "2021-05-17 23:39:51.505009"]]
+  ↳ app/services/Create/Payment.rb:11:in `block in create'
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/controllers/api/v2/orders_controller.rb:5:in `create'
+Completed 404 Not Found in 811ms (Views: 0.2ms | ActiveRecord: 28.8ms | Allocations: 31171)
+
+
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (23.7ms)[0m  [1m[35mDROP DATABASE IF EXISTS "delivery_ruby_development"[0m
+  [1m[35m (19.7ms)[0m  [1m[35mDROP DATABASE IF EXISTS "delivery_ruby_test"[0m
+  [1m[35m (136.7ms)[0m  [1m[35mCREATE DATABASE "delivery_ruby_development" ENCODING = 'unicode'[0m
+  [1m[35m (148.6ms)[0m  [1m[35mCREATE DATABASE "delivery_ruby_test" ENCODING = 'unicode'[0m
+  [1m[35m (9.9ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (7.7ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(3914982336954686550)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateOrders (20200910210436)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.9ms)[0m  [1m[35mCREATE TABLE "orders" ("id" bigserial primary key, "external_code" character varying, "store_id" integer, "sub_total" character varying, "delivery_fee" character varying, "total" character varying, "country" character varying, "state" character varying, "city" character varying, "district" character varying, "street" character varying, "complement" character varying, "latitude" decimal(10,6), "longitude" decimal(10,6), "dt_order_create" character varying, "postal_code" character varying, "number" character varying, "total_shipping" float, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910210436"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateCustumers (20200910210918)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (7.8ms)[0m  [1m[35mCREATE TABLE "customers" ("id" bigserial primary key, "external_id" character varying, "name" character varying, "email" character varying, "contact" character varying, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_89866406f0"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE  INDEX  "index_customers_on_order_id" ON "customers"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910210918"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateItems (20200910211249)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.7ms)[0m  [1m[35mCREATE TABLE "items" ("id" bigserial primary key, "external_code" character varying, "name" character varying, "price" float, "quantity" integer, "total" float, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_53153f3b4b"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (2.4ms)[0m  [1m[35mCREATE  INDEX  "index_items_on_order_id" ON "items"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910211249"]]
+  [1m[35m (1.3ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreatePayments (20200910211443)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (8.8ms)[0m  [1m[35mCREATE TABLE "payments" ("id" bigserial primary key, "modality" character varying, "value" float, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_6af949464b"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (3.9ms)[0m  [1m[35mCREATE  INDEX  "index_payments_on_order_id" ON "payments"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910211443"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelCustomer (20210515015432)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[35mALTER TABLE "customers" DROP COLUMN "order_id"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "customers" DROP COLUMN "external_id"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "customers" ADD "external_code" character varying[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515015432"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelItems (20210515020157)
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.7ms)[0m  [1m[35mALTER TABLE "items" DROP COLUMN "order_id"[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515020157"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelOrder (20210515021115)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.6ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "latitude"[0m
+  [1m[35m (0.5ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "longitude"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "complement"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "street"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "state"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "city"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "district"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "country"[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515021115"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelPayments (20210515021946)
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.7ms)[0m  [1m[35mALTER TABLE "payments" DROP COLUMN "order_id"[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515021946"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateAddresses (20210515022236)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.4ms)[0m  [1m[35mCREATE TABLE "addresses" ("id" bigserial primary key, "country" character varying, "state" character varying, "city" character varying, "district" character varying, "street" character varying, "complement" character varying, "latitude" character varying, "longitude" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515022236"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddReferencesInOrder (20210516133749)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.6ms)[0m  [1m[35mALTER TABLE "orders" ADD "address_id" bigint[0m
+  [1m[35m (3.0ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_address_id" ON "orders"  ("address_id")[0m
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_774ef80392"
+FOREIGN KEY ("address_id")
+  REFERENCES "addresses" ("id")
+[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" ADD "customers_id" bigint[0m
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_customers_id" ON "orders"  ("customers_id")[0m
+  [1m[35m (0.9ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_a4cda5ee73"
+FOREIGN KEY ("customers_id")
+  REFERENCES "customers" ("id")
+[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" ADD "items_id" bigint[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_items_id" ON "orders"  ("items_id")[0m
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_58daaeeb67"
+FOREIGN KEY ("items_id")
+  REFERENCES "items" ("id")
+[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" ADD "payments_id" bigint[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_payments_id" ON "orders"  ("payments_id")[0m
+  [1m[35m (1.2ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_ee017e1be7"
+FOREIGN KEY ("payments_id")
+  REFERENCES "payments" ("id")
+[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210516133749"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2021-05-17 23:40:04.721762"], ["updated_at", "2021-05-17 23:40:04.721762"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(3914982336954686550)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started POST "/api/v2/orders" for ::1 at 2021-05-17 20:40:14 -0300
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Api::V2::OrdersController#create as */*
+  Parameters: {"id"=>9987071, "store_id"=>282, "date_created"=>"2019-06-24T16:45:32.000-04:00", "date_closed"=>"2019-06-24T16:45:35.000-04:00", "last_updated"=>"2019-06-25T13:26:49.000-04:00", "total_amount"=>49.9, "total_shipping"=>5.14, "total_amount_with_shipping"=>55.04, "paid_amount"=>55.04, "expiration_date"=>"2019-07-22T16:45:35.000-04:00", "order_items"=>[{"item"=>{"id"=>"IT4801901403", "title"=>"Produto de Testes"}, "quantity"=>1, "unit_price"=>49.9, "full_unit_price"=>49.9}], "payments"=>[{"id"=>12312313, "order_id"=>9987071, "payer_id"=>414138, "installments"=>1, "payment_type"=>"credit_card", "status"=>"paid", "transaction_amount"=>49.9, "taxes_amount"=>0, "shipping_cost"=>5.14, "total_paid_amount"=>55.04, "installment_amount"=>55.04, "date_approved"=>"2019-06-24T16:45:35.000-04:00", "date_created"=>"2019-06-24T16:45:33.000-04:00"}], "shipping"=>{"id"=>43444211797, "shipment_type"=>"shipping", "date_created"=>"2019-06-24T16:45:33.000-04:00", "receiver_address"=>{"id"=>1051695306, "address_line"=>"Rua de Testes Fake 3454", "street_name"=>"Rua de Testes Fake", "street_number"=>"3454", "comment"=>"galpao", "zip_code"=>"85045020", "city"=>{"name"=>"Cidade de Testes"}, "state"=>{"id"=>"SP", "name"=>"São Paulo"}, "country"=>{"id"=>"BR", "name"=>"Brasil"}, "neighborhood"=>{"id"=>nil, "name"=>"Vila de Testes"}, "latitude"=>-23.629037, "longitude"=>-46.712689, "receiver_phone"=>"41999999999"}}, "status"=>"paid", "buyer"=>{"id"=>136226073, "nickname"=>"JOHN DOE", "email"=>"john@doe.com", "phone"=>{"area_code"=>41, "number"=>"999999999"}, "first_name"=>"John", "last_name"=>"Doe", "billing_info"=>{"doc_type"=>"CPF", "doc_number"=>"09487965477"}}, "order"=>{"id"=>9987071, "store_id"=>282, "total_shipping"=>5.14}}
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mAddress Load (1.2ms)[0m  [1m[34mSELECT "addresses".* FROM "addresses" WHERE "addresses"."country" = $1 AND "addresses"."state" = $2 AND "addresses"."city" = $3 AND "addresses"."district" = $4 AND "addresses"."street" = $5 AND "addresses"."complement" = $6 AND "addresses"."latitude" = $7 AND "addresses"."longitude" = $8 LIMIT $9[0m  [["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["LIMIT", 1]]
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mAddress Create (1.1ms)[0m  [1m[32mINSERT INTO "addresses" ("country", "state", "city", "district", "street", "complement", "latitude", "longitude", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["created_at", "2021-05-17 23:40:15.514526"], ["updated_at", "2021-05-17 23:40:15.514526"]]
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mCustomer Load (0.6ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."external_code" = $1 AND "customers"."name" = $2 AND "customers"."email" = $3 AND "customers"."contact" = $4 LIMIT $5[0m  [["external_code", "136226073"], ["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["LIMIT", 1]]
+  ↳ app/services/Create/Customer.rb:10:in `create'
+  [1m[36mCustomer Create (0.5ms)[0m  [1m[32mINSERT INTO "customers" ("name", "email", "contact", "created_at", "updated_at", "external_code") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["created_at", "2021-05-17 23:40:15.541091"], ["updated_at", "2021-05-17 23:40:15.541091"], ["external_code", "136226073"]]
+  ↳ app/services/Create/Customer.rb:10:in `create'
+  [1m[36mItem Load (0.4ms)[0m  [1m[34mSELECT "items".* FROM "items" WHERE "items"."external_code" = $1 AND "items"."name" = $2 AND "items"."price" = $3 AND "items"."quantity" = $4 AND "items"."total" = $5 LIMIT $6[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["LIMIT", 1]]
+  ↳ app/services/Create/Item.rb:11:in `block in create'
+  [1m[36mItem Create (0.5ms)[0m  [1m[32mINSERT INTO "items" ("external_code", "name", "price", "quantity", "total", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["created_at", "2021-05-17 23:40:15.558612"], ["updated_at", "2021-05-17 23:40:15.558612"]]
+  ↳ app/services/Create/Item.rb:11:in `block in create'
+  [1m[36mPayment Load (0.3ms)[0m  [1m[34mSELECT "payments".* FROM "payments" WHERE "payments"."modality" = $1 AND "payments"."value" = $2 LIMIT $3[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["LIMIT", 1]]
+  ↳ app/services/Create/Payment.rb:11:in `block in create'
+  [1m[36mPayment Create (0.5ms)[0m  [1m[32mINSERT INTO "payments" ("modality", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["created_at", "2021-05-17 23:40:15.573903"], ["updated_at", "2021-05-17 23:40:15.573903"]]
+  ↳ app/services/Create/Payment.rb:11:in `block in create'
+  [1m[36mOrder Load (0.8ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."external_code" = $1 AND "orders"."store_id" = $2 AND "orders"."sub_total" = $3 AND "orders"."delivery_fee" = $4 AND "orders"."total" = $5 AND "orders"."dt_order_create" = $6 AND "orders"."postal_code" = $7 AND "orders"."number" = $8 AND "orders"."total_shipping" = $9 AND "orders"."address_id" = $10 AND "orders"."customers_id" = $11 AND "orders"."items_id" = $12 AND "orders"."payments_id" = $13 LIMIT $14[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.9"], ["delivery_fee", "5.14"], ["total", "55.04"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["total_shipping", 5.14], ["address_id", 1], ["customers_id", 1], ["items_id", 1], ["payments_id", 1], ["LIMIT", 1]]
+  ↳ app/services/Create/Order.rb:14:in `make'
+  [1m[36mOrder Create (1.0ms)[0m  [1m[32mINSERT INTO "orders" ("external_code", "store_id", "sub_total", "delivery_fee", "total", "dt_order_create", "postal_code", "number", "total_shipping", "created_at", "updated_at", "address_id", "customers_id", "items_id", "payments_id") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING "id"[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.9"], ["delivery_fee", "5.14"], ["total", "55.04"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["total_shipping", 5.14], ["created_at", "2021-05-17 23:40:15.596856"], ["updated_at", "2021-05-17 23:40:15.596856"], ["address_id", 1], ["customers_id", 1], ["items_id", 1], ["payments_id", 1]]
+  ↳ app/services/Create/Order.rb:14:in `make'
+  [1m[35m (1.8ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/api/v2/orders_controller.rb:5:in `create'
+Completed 200 OK in 829ms (Views: 0.2ms | ActiveRecord: 37.4ms | Allocations: 41161)
+
+
+Started POST "/api/v2/orders" for ::1 at 2021-05-17 20:41:48 -0300
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Api::V2::OrdersController#create as */*
+  Parameters: {"id"=>9987071, "store_id"=>282, "date_created"=>"2019-06-24T16:45:32.000-04:00", "date_closed"=>"2019-06-24T16:45:35.000-04:00", "last_updated"=>"2019-06-25T13:26:49.000-04:00", "total_amount"=>49.9, "total_shipping"=>5.14, "total_amount_with_shipping"=>55.04, "paid_amount"=>55.04, "expiration_date"=>"2019-07-22T16:45:35.000-04:00", "order_items"=>[{"item"=>{"id"=>"IT4801901403", "title"=>"Produto de Testes"}, "quantity"=>1, "unit_price"=>49.9, "full_unit_price"=>49.9}], "payments"=>[{"id"=>12312313, "order_id"=>9987071, "payer_id"=>414138, "installments"=>1, "payment_type"=>"credit_card", "status"=>"paid", "transaction_amount"=>49.9, "taxes_amount"=>0, "shipping_cost"=>5.14, "total_paid_amount"=>55.04, "installment_amount"=>55.04, "date_approved"=>"2019-06-24T16:45:35.000-04:00", "date_created"=>"2019-06-24T16:45:33.000-04:00"}], "shipping"=>{"id"=>43444211797, "shipment_type"=>"shipping", "date_created"=>"2019-06-24T16:45:33.000-04:00", "receiver_address"=>{"id"=>1051695306, "address_line"=>"Rua de Testes Fake 3454", "street_name"=>"Rua de Testes Fake", "street_number"=>"3454", "comment"=>"galpao", "zip_code"=>"85045020", "city"=>{"name"=>"Cidade de Testes"}, "state"=>{"id"=>"SP", "name"=>"São Paulo"}, "country"=>{"id"=>"BR", "name"=>"Brasil"}, "neighborhood"=>{"id"=>nil, "name"=>"rua 3"}, "latitude"=>-23.629037, "longitude"=>-46.712689, "receiver_phone"=>"41999999999"}}, "status"=>"paid", "buyer"=>{"id"=>136226073, "nickname"=>"JOHN DOE", "email"=>"john@doe.com", "phone"=>{"area_code"=>41, "number"=>"999999999"}, "first_name"=>"John", "last_name"=>"Doe", "billing_info"=>{"doc_type"=>"CPF", "doc_number"=>"09487965477"}}, "order"=>{"id"=>9987071, "store_id"=>282, "total_shipping"=>5.14}}
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mAddress Load (0.5ms)[0m  [1m[34mSELECT "addresses".* FROM "addresses" WHERE "addresses"."country" = $1 AND "addresses"."state" = $2 AND "addresses"."city" = $3 AND "addresses"."district" = $4 AND "addresses"."street" = $5 AND "addresses"."complement" = $6 AND "addresses"."latitude" = $7 AND "addresses"."longitude" = $8 LIMIT $9[0m  [["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "rua 3"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["LIMIT", 1]]
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/controllers/api/v2/orders_controller.rb:5:in `create'
+Completed 200 OK in 687ms (Views: 0.2ms | ActiveRecord: 6.7ms | Allocations: 14692)
+
+
+Started POST "/api/v2/orders" for ::1 at 2021-05-17 20:42:17 -0300
+Processing by Api::V2::OrdersController#create as */*
+  Parameters: {"id"=>9987071, "store_id"=>282, "date_created"=>"2019-06-24T16:45:32.000-04:00", "date_closed"=>"2019-06-24T16:45:35.000-04:00", "last_updated"=>"2019-06-25T13:26:49.000-04:00", "total_amount"=>49.9, "total_shipping"=>5.14, "total_amount_with_shipping"=>55.04, "paid_amount"=>55.04, "expiration_date"=>"2019-07-22T16:45:35.000-04:00", "order_items"=>[{"item"=>{"id"=>"IT4801901403", "title"=>"Produto de Testes"}, "quantity"=>1, "unit_price"=>49.9, "full_unit_price"=>49.9}], "payments"=>[{"id"=>12312313, "order_id"=>9987071, "payer_id"=>414138, "installments"=>1, "payment_type"=>"credit_card", "status"=>"paid", "transaction_amount"=>49.9, "taxes_amount"=>0, "shipping_cost"=>5.14, "total_paid_amount"=>55.04, "installment_amount"=>55.04, "date_approved"=>"2019-06-24T16:45:35.000-04:00", "date_created"=>"2019-06-24T16:45:33.000-04:00"}], "shipping"=>{"id"=>43444211797, "shipment_type"=>"shipping", "date_created"=>"2019-06-24T16:45:33.000-04:00", "receiver_address"=>{"id"=>1051695306, "address_line"=>"Rua de Testes Fake 3454", "street_name"=>"Rua de Testes Fake", "street_number"=>"3454", "comment"=>"galpao", "zip_code"=>"85045020", "city"=>{"name"=>"Cidade de Testes"}, "state"=>{"id"=>"SP", "name"=>"São Paulo"}, "country"=>{"id"=>"BR", "name"=>"Brasil"}, "neighborhood"=>{"id"=>nil, "name"=>"Vila de Testes"}, "latitude"=>-23.629037, "longitude"=>-46.712689, "receiver_phone"=>"41999999999"}}, "status"=>"paid", "buyer"=>{"id"=>136226073, "nickname"=>"JOHN DOE", "email"=>"john@doe.com", "phone"=>{"area_code"=>41, "number"=>"999999999"}, "first_name"=>"John", "last_name"=>"Doe", "billing_info"=>{"doc_type"=>"CPF", "doc_number"=>"09487965477"}}, "order"=>{"id"=>9987071, "store_id"=>282, "total_shipping"=>5.14}}
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mAddress Load (1.1ms)[0m  [1m[34mSELECT "addresses".* FROM "addresses" WHERE "addresses"."country" = $1 AND "addresses"."state" = $2 AND "addresses"."city" = $3 AND "addresses"."district" = $4 AND "addresses"."street" = $5 AND "addresses"."complement" = $6 AND "addresses"."latitude" = $7 AND "addresses"."longitude" = $8 LIMIT $9[0m  [["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["LIMIT", 1]]
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mCustomer Load (0.9ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."external_code" = $1 AND "customers"."name" = $2 AND "customers"."email" = $3 AND "customers"."contact" = $4 LIMIT $5[0m  [["external_code", "136226073"], ["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["LIMIT", 1]]
+  ↳ app/services/Create/Customer.rb:10:in `create'
+  [1m[36mItem Load (1.4ms)[0m  [1m[34mSELECT "items".* FROM "items" WHERE "items"."external_code" = $1 AND "items"."name" = $2 AND "items"."price" = $3 AND "items"."quantity" = $4 AND "items"."total" = $5 LIMIT $6[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["LIMIT", 1]]
+  ↳ app/services/Create/Item.rb:11:in `block in create'
+  [1m[36mPayment Load (0.5ms)[0m  [1m[34mSELECT "payments".* FROM "payments" WHERE "payments"."modality" = $1 AND "payments"."value" = $2 LIMIT $3[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["LIMIT", 1]]
+  ↳ app/services/Create/Payment.rb:11:in `block in create'
+  [1m[36mOrder Load (0.6ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."external_code" = $1 AND "orders"."store_id" = $2 AND "orders"."sub_total" = $3 AND "orders"."delivery_fee" = $4 AND "orders"."total" = $5 AND "orders"."dt_order_create" = $6 AND "orders"."postal_code" = $7 AND "orders"."number" = $8 AND "orders"."total_shipping" = $9 AND "orders"."address_id" = $10 AND "orders"."customers_id" = $11 AND "orders"."items_id" = $12 AND "orders"."payments_id" = $13 LIMIT $14[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.9"], ["delivery_fee", "5.14"], ["total", "55.04"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["total_shipping", 5.14], ["address_id", 1], ["customers_id", 1], ["items_id", 1], ["payments_id", 1], ["LIMIT", 1]]
+  ↳ app/services/Create/Order.rb:14:in `make'
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/api/v2/orders_controller.rb:5:in `create'
+Completed 200 OK in 812ms (Views: 0.1ms | ActiveRecord: 29.9ms | Allocations: 29094)
+
+
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (23.5ms)[0m  [1m[35mDROP DATABASE IF EXISTS "delivery_ruby_development"[0m
+  [1m[35m (20.6ms)[0m  [1m[35mDROP DATABASE IF EXISTS "delivery_ruby_test"[0m
+  [1m[35m (159.8ms)[0m  [1m[35mCREATE DATABASE "delivery_ruby_development" ENCODING = 'unicode'[0m
+  [1m[35m (166.3ms)[0m  [1m[35mCREATE DATABASE "delivery_ruby_test" ENCODING = 'unicode'[0m
+  [1m[35m (8.0ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (6.7ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(3914982336954686550)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateOrders (20200910210436)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (7.1ms)[0m  [1m[35mCREATE TABLE "orders" ("id" bigserial primary key, "external_code" character varying, "store_id" integer, "sub_total" character varying, "delivery_fee" character varying, "total" character varying, "country" character varying, "state" character varying, "city" character varying, "district" character varying, "street" character varying, "complement" character varying, "latitude" decimal(10,6), "longitude" decimal(10,6), "dt_order_create" character varying, "postal_code" character varying, "number" character varying, "total_shipping" float, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910210436"]]
+  [1m[35m (1.3ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateCustumers (20200910210918)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.8ms)[0m  [1m[35mCREATE TABLE "customers" ("id" bigserial primary key, "external_id" character varying, "name" character varying, "email" character varying, "contact" character varying, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_89866406f0"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCREATE  INDEX  "index_customers_on_order_id" ON "customers"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910210918"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateItems (20200910211249)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.5ms)[0m  [1m[35mCREATE TABLE "items" ("id" bigserial primary key, "external_code" character varying, "name" character varying, "price" float, "quantity" integer, "total" float, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_53153f3b4b"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (13.5ms)[0m  [1m[35mCREATE  INDEX  "index_items_on_order_id" ON "items"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.8ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910211249"]]
+  [1m[35m (3.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreatePayments (20200910211443)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (8.4ms)[0m  [1m[35mCREATE TABLE "payments" ("id" bigserial primary key, "modality" character varying, "value" float, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_6af949464b"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (3.2ms)[0m  [1m[35mCREATE  INDEX  "index_payments_on_order_id" ON "payments"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910211443"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelCustomer (20210515015432)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.7ms)[0m  [1m[35mALTER TABLE "customers" DROP COLUMN "order_id"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "customers" DROP COLUMN "external_id"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "customers" ADD "external_code" character varying[0m
+  [1m[36mprimary::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515015432"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelItems (20210515020157)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.2ms)[0m  [1m[35mALTER TABLE "items" DROP COLUMN "order_id"[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515020157"]]
+  [1m[35m (1.3ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelOrder (20210515021115)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.5ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "latitude"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "longitude"[0m
+  [1m[35m (0.5ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "complement"[0m
+  [1m[35m (0.5ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "street"[0m
+  [1m[35m (0.5ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "state"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "city"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "district"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "country"[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515021115"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelPayments (20210515021946)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.8ms)[0m  [1m[35mALTER TABLE "payments" DROP COLUMN "order_id"[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515021946"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateAddresses (20210515022236)
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.0ms)[0m  [1m[35mCREATE TABLE "addresses" ("id" bigserial primary key, "country" character varying, "state" character varying, "city" character varying, "district" character varying, "street" character varying, "complement" character varying, "latitude" character varying, "longitude" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515022236"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddReferencesInOrder (20210516133749)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" ADD "address_id" bigint[0m
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_address_id" ON "orders"  ("address_id")[0m
+  [1m[35m (1.1ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_774ef80392"
+FOREIGN KEY ("address_id")
+  REFERENCES "addresses" ("id")
+[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" ADD "customers_id" bigint[0m
+  [1m[35m (3.3ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_customers_id" ON "orders"  ("customers_id")[0m
+  [1m[35m (0.9ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_a4cda5ee73"
+FOREIGN KEY ("customers_id")
+  REFERENCES "customers" ("id")
+[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" ADD "items_id" bigint[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_items_id" ON "orders"  ("items_id")[0m
+  [1m[35m (0.9ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_58daaeeb67"
+FOREIGN KEY ("items_id")
+  REFERENCES "items" ("id")
+[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" ADD "payments_id" bigint[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_payments_id" ON "orders"  ("payments_id")[0m
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_ee017e1be7"
+FOREIGN KEY ("payments_id")
+  REFERENCES "payments" ("id")
+[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210516133749"]]
+  [1m[35m (1.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.0ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.8ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2021-05-17 23:42:37.091007"], ["updated_at", "2021-05-17 23:42:37.091007"]]
+  [1m[35m (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT pg_advisory_unlock(3914982336954686550)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started POST "/api/v2/orders" for ::1 at 2021-05-17 20:42:42 -0300
+  [1m[35m (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Api::V2::OrdersController#create as */*
+  Parameters: {"id"=>9987071, "store_id"=>282, "date_created"=>"2019-06-24T16:45:32.000-04:00", "date_closed"=>"2019-06-24T16:45:35.000-04:00", "last_updated"=>"2019-06-25T13:26:49.000-04:00", "total_amount"=>49.9, "total_shipping"=>5.14, "total_amount_with_shipping"=>55.04, "paid_amount"=>55.04, "expiration_date"=>"2019-07-22T16:45:35.000-04:00", "order_items"=>[{"item"=>{"id"=>"IT4801901403", "title"=>"Produto de Testes"}, "quantity"=>1, "unit_price"=>49.9, "full_unit_price"=>49.9}], "payments"=>[{"id"=>12312313, "order_id"=>9987071, "payer_id"=>414138, "installments"=>1, "payment_type"=>"credit_card", "status"=>"paid", "transaction_amount"=>49.9, "taxes_amount"=>0, "shipping_cost"=>5.14, "total_paid_amount"=>55.04, "installment_amount"=>55.04, "date_approved"=>"2019-06-24T16:45:35.000-04:00", "date_created"=>"2019-06-24T16:45:33.000-04:00"}], "shipping"=>{"id"=>43444211797, "shipment_type"=>"shipping", "date_created"=>"2019-06-24T16:45:33.000-04:00", "receiver_address"=>{"id"=>1051695306, "address_line"=>"Rua de Testes Fake 3454", "street_name"=>"Rua de Testes Fake", "street_number"=>"3454", "comment"=>"galpao", "zip_code"=>"85045020", "city"=>{"name"=>"Cidade de Testes"}, "state"=>{"id"=>"SP", "name"=>"São Paulo"}, "country"=>{"id"=>"BR", "name"=>"Brasil"}, "neighborhood"=>{"id"=>nil, "name"=>"Vila de Testes"}, "latitude"=>-23.629037, "longitude"=>-46.712689, "receiver_phone"=>"41999999999"}}, "status"=>"paid", "buyer"=>{"id"=>136226073, "nickname"=>"JOHN DOE", "email"=>"john@doe.com", "phone"=>{"area_code"=>41, "number"=>"999999999"}, "first_name"=>"John", "last_name"=>"Doe", "billing_info"=>{"doc_type"=>"CPF", "doc_number"=>"09487965477"}}, "order"=>{"id"=>9987071, "store_id"=>282, "total_shipping"=>5.14}}
+  [1m[35m (2.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mAddress Load (1.4ms)[0m  [1m[34mSELECT "addresses".* FROM "addresses" WHERE "addresses"."country" = $1 AND "addresses"."state" = $2 AND "addresses"."city" = $3 AND "addresses"."district" = $4 AND "addresses"."street" = $5 AND "addresses"."complement" = $6 AND "addresses"."latitude" = $7 AND "addresses"."longitude" = $8 LIMIT $9[0m  [["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["LIMIT", 1]]
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/controllers/api/v2/orders_controller.rb:5:in `create'
+Completed 200 OK in 713ms (Views: 0.2ms | ActiveRecord: 20.9ms | Allocations: 14670)
+
+
+Started POST "/api/v2/orders" for ::1 at 2021-05-17 20:43:22 -0300
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Api::V2::OrdersController#create as */*
+  Parameters: {"id"=>9987071, "store_id"=>282, "date_created"=>"2019-06-24T16:45:32.000-04:00", "date_closed"=>"2019-06-24T16:45:35.000-04:00", "last_updated"=>"2019-06-25T13:26:49.000-04:00", "total_amount"=>49.9, "total_shipping"=>5.14, "total_amount_with_shipping"=>55.04, "paid_amount"=>55.04, "expiration_date"=>"2019-07-22T16:45:35.000-04:00", "order_items"=>[{"item"=>{"id"=>"IT4801901403", "title"=>"Produto de Testes"}, "quantity"=>1, "unit_price"=>49.9, "full_unit_price"=>49.9}], "payments"=>[{"id"=>12312313, "order_id"=>9987071, "payer_id"=>414138, "installments"=>1, "payment_type"=>"credit_card", "status"=>"paid", "transaction_amount"=>49.9, "taxes_amount"=>0, "shipping_cost"=>5.14, "total_paid_amount"=>55.04, "installment_amount"=>55.04, "date_approved"=>"2019-06-24T16:45:35.000-04:00", "date_created"=>"2019-06-24T16:45:33.000-04:00"}], "shipping"=>{"id"=>43444211797, "shipment_type"=>"shipping", "date_created"=>"2019-06-24T16:45:33.000-04:00", "receiver_address"=>{"id"=>1051695306, "address_line"=>"Rua de Testes Fake 3454", "street_name"=>"Rua de Testes Fake", "street_number"=>"3454", "comment"=>"galpao", "zip_code"=>"85045020", "city"=>{"name"=>"Cidade de Testes"}, "state"=>{"id"=>"SP", "name"=>"São Paulo"}, "country"=>{"id"=>"BR", "name"=>"Brasil"}, "neighborhood"=>{"id"=>nil, "name"=>"Vila de Testes"}, "latitude"=>-23.629037, "longitude"=>-46.712689, "receiver_phone"=>"41999999999"}}, "status"=>"paid", "buyer"=>{"id"=>136226073, "nickname"=>"JOHN DOE", "email"=>"john@doe.com", "phone"=>{"area_code"=>41, "number"=>"999999999"}, "first_name"=>"John", "last_name"=>"Doe", "billing_info"=>{"doc_type"=>"CPF", "doc_number"=>"09487965477"}}, "order"=>{"id"=>9987071, "store_id"=>282, "total_shipping"=>5.14}}
+  [1m[35m (3.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mAddress Load (1.3ms)[0m  [1m[34mSELECT "addresses".* FROM "addresses" WHERE "addresses"."country" = $1 AND "addresses"."state" = $2 AND "addresses"."city" = $3 AND "addresses"."district" = $4 AND "addresses"."street" = $5 AND "addresses"."complement" = $6 AND "addresses"."latitude" = $7 AND "addresses"."longitude" = $8 LIMIT $9[0m  [["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["LIMIT", 1]]
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[35m (0.6ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/controllers/api/v2/orders_controller.rb:5:in `create'
+Completed 200 OK in 1026ms (Views: 0.5ms | ActiveRecord: 21.8ms | Allocations: 14696)
+
+
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (21.9ms)[0m  [1m[35mDROP DATABASE IF EXISTS "delivery_ruby_development"[0m
+  [1m[35m (19.8ms)[0m  [1m[35mDROP DATABASE IF EXISTS "delivery_ruby_test"[0m
+  [1m[35m (157.7ms)[0m  [1m[35mCREATE DATABASE "delivery_ruby_development" ENCODING = 'unicode'[0m
+  [1m[35m (136.6ms)[0m  [1m[35mCREATE DATABASE "delivery_ruby_test" ENCODING = 'unicode'[0m
+  [1m[35m (10.9ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (7.4ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT pg_try_advisory_lock(3914982336954686550)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateOrders (20200910210436)
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (12.1ms)[0m  [1m[35mCREATE TABLE "orders" ("id" bigserial primary key, "external_code" character varying, "store_id" integer, "sub_total" character varying, "delivery_fee" character varying, "total" character varying, "country" character varying, "state" character varying, "city" character varying, "district" character varying, "street" character varying, "complement" character varying, "latitude" decimal(10,6), "longitude" decimal(10,6), "dt_order_create" character varying, "postal_code" character varying, "number" character varying, "total_shipping" float, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910210436"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateCustumers (20200910210918)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.9ms)[0m  [1m[35mCREATE TABLE "customers" ("id" bigserial primary key, "external_id" character varying, "name" character varying, "email" character varying, "contact" character varying, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_89866406f0"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE  INDEX  "index_customers_on_order_id" ON "customers"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910210918"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateItems (20200910211249)
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (7.2ms)[0m  [1m[35mCREATE TABLE "items" ("id" bigserial primary key, "external_code" character varying, "name" character varying, "price" float, "quantity" integer, "total" float, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_53153f3b4b"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE  INDEX  "index_items_on_order_id" ON "items"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910211249"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreatePayments (20200910211443)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.7ms)[0m  [1m[35mCREATE TABLE "payments" ("id" bigserial primary key, "modality" character varying, "value" float, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_6af949464b"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (3.0ms)[0m  [1m[35mCREATE  INDEX  "index_payments_on_order_id" ON "payments"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.8ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910211443"]]
+  [1m[35m (1.5ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelCustomer (20210515015432)
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (4.8ms)[0m  [1m[35mALTER TABLE "customers" DROP COLUMN "order_id"[0m
+  [1m[35m (1.1ms)[0m  [1m[35mALTER TABLE "customers" DROP COLUMN "external_id"[0m
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "customers" ADD "external_code" character varying[0m
+  [1m[36mprimary::SchemaMigration Create (0.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515015432"]]
+  [1m[35m (2.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelItems (20210515020157)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.1ms)[0m  [1m[35mALTER TABLE "items" DROP COLUMN "order_id"[0m
+  [1m[36mprimary::SchemaMigration Create (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515020157"]]
+  [1m[35m (5.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelOrder (20210515021115)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.9ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "latitude"[0m
+  [1m[35m (0.5ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "longitude"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "complement"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "street"[0m
+  [1m[35m (1.1ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "state"[0m
+  [1m[35m (0.5ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "city"[0m
+  [1m[35m (0.5ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "district"[0m
+  [1m[35m (0.5ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "country"[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515021115"]]
+  [1m[35m (6.3ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelPayments (20210515021946)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "payments" DROP COLUMN "order_id"[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515021946"]]
+  [1m[35m (1.5ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateAddresses (20210515022236)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (7.3ms)[0m  [1m[35mCREATE TABLE "addresses" ("id" bigserial primary key, "country" character varying, "state" character varying, "city" character varying, "district" character varying, "street" character varying, "complement" character varying, "latitude" character varying, "longitude" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515022236"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddReferencesInOrder (20210516133749)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.5ms)[0m  [1m[35mALTER TABLE "orders" ADD "address_id" bigint[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_address_id" ON "orders"  ("address_id")[0m
+  [1m[35m (1.2ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_774ef80392"
+FOREIGN KEY ("address_id")
+  REFERENCES "addresses" ("id")
+[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" ADD "customers_id" bigint[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_customers_id" ON "orders"  ("customers_id")[0m
+  [1m[35m (1.2ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_a4cda5ee73"
+FOREIGN KEY ("customers_id")
+  REFERENCES "customers" ("id")
+[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" ADD "items_id" bigint[0m
+  [1m[35m (2.4ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_items_id" ON "orders"  ("items_id")[0m
+  [1m[35m (1.1ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_58daaeeb67"
+FOREIGN KEY ("items_id")
+  REFERENCES "items" ("id")
+[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" ADD "payments_id" bigint[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_payments_id" ON "orders"  ("payments_id")[0m
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_ee017e1be7"
+FOREIGN KEY ("payments_id")
+  REFERENCES "payments" ("id")
+[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210516133749"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.6ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2021-05-17 23:43:45.888404"], ["updated_at", "2021-05-17 23:43:45.888404"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(3914982336954686550)[0m
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started POST "/api/v2/orders" for ::1 at 2021-05-17 20:44:02 -0300
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Api::V2::OrdersController#create as */*
+  Parameters: {"id"=>9987071, "store_id"=>282, "date_created"=>"2019-06-24T16:45:32.000-04:00", "date_closed"=>"2019-06-24T16:45:35.000-04:00", "last_updated"=>"2019-06-25T13:26:49.000-04:00", "total_amount"=>49.9, "total_shipping"=>5.14, "total_amount_with_shipping"=>55.04, "paid_amount"=>55.04, "expiration_date"=>"2019-07-22T16:45:35.000-04:00", "order_items"=>[{"item"=>{"id"=>"IT4801901403", "title"=>"Produto de Testes"}, "quantity"=>1, "unit_price"=>49.9, "full_unit_price"=>49.9}], "payments"=>[{"id"=>12312313, "order_id"=>9987071, "payer_id"=>414138, "installments"=>1, "payment_type"=>"credit_card", "status"=>"paid", "transaction_amount"=>49.9, "taxes_amount"=>0, "shipping_cost"=>5.14, "total_paid_amount"=>55.04, "installment_amount"=>55.04, "date_approved"=>"2019-06-24T16:45:35.000-04:00", "date_created"=>"2019-06-24T16:45:33.000-04:00"}], "shipping"=>{"id"=>43444211797, "shipment_type"=>"shipping", "date_created"=>"2019-06-24T16:45:33.000-04:00", "receiver_address"=>{"id"=>1051695306, "address_line"=>"Rua de Testes Fake 3454", "street_name"=>"Rua de Testes Fake", "street_number"=>"3454", "comment"=>"galpao", "zip_code"=>"85045020", "city"=>{"name"=>"Cidade de Testes"}, "state"=>{"id"=>"SP", "name"=>"São Paulo"}, "country"=>{"id"=>"BR", "name"=>"Brasil"}, "neighborhood"=>{"id"=>nil, "name"=>"Vila de Testes"}, "latitude"=>-23.629037, "longitude"=>-46.712689, "receiver_phone"=>"41999999999"}}, "status"=>"paid", "buyer"=>{"id"=>136226073, "nickname"=>"JOHN DOE", "email"=>"john@doe.com", "phone"=>{"area_code"=>41, "number"=>"999999999"}, "first_name"=>"John", "last_name"=>"Doe", "billing_info"=>{"doc_type"=>"CPF", "doc_number"=>"09487965477"}}, "order"=>{"id"=>9987071, "store_id"=>282, "total_shipping"=>5.14}}
+  [1m[35m (3.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mAddress Load (0.8ms)[0m  [1m[34mSELECT "addresses".* FROM "addresses" WHERE "addresses"."country" = $1 AND "addresses"."state" = $2 AND "addresses"."city" = $3 AND "addresses"."district" = $4 AND "addresses"."street" = $5 AND "addresses"."complement" = $6 AND "addresses"."latitude" = $7 AND "addresses"."longitude" = $8 LIMIT $9[0m  [["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["LIMIT", 1]]
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mAddress Create (0.7ms)[0m  [1m[32mINSERT INTO "addresses" ("country", "state", "city", "district", "street", "complement", "latitude", "longitude", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["created_at", "2021-05-17 23:44:03.243206"], ["updated_at", "2021-05-17 23:44:03.243206"]]
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mCustomer Load (0.3ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."external_code" = $1 AND "customers"."name" = $2 AND "customers"."email" = $3 AND "customers"."contact" = $4 LIMIT $5[0m  [["external_code", "136226073"], ["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["LIMIT", 1]]
+  ↳ app/services/Create/Customer.rb:10:in `create'
+  [1m[36mCustomer Create (0.5ms)[0m  [1m[32mINSERT INTO "customers" ("name", "email", "contact", "created_at", "updated_at", "external_code") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["created_at", "2021-05-17 23:44:03.258984"], ["updated_at", "2021-05-17 23:44:03.258984"], ["external_code", "136226073"]]
+  ↳ app/services/Create/Customer.rb:10:in `create'
+  [1m[36mItem Load (0.3ms)[0m  [1m[34mSELECT "items".* FROM "items" WHERE "items"."external_code" = $1 AND "items"."name" = $2 AND "items"."price" = $3 AND "items"."quantity" = $4 AND "items"."total" = $5 LIMIT $6[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["LIMIT", 1]]
+  ↳ app/services/Create/Item.rb:11:in `block in create'
+  [1m[36mItem Create (0.6ms)[0m  [1m[32mINSERT INTO "items" ("external_code", "name", "price", "quantity", "total", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["created_at", "2021-05-17 23:44:03.276557"], ["updated_at", "2021-05-17 23:44:03.276557"]]
+  ↳ app/services/Create/Item.rb:11:in `block in create'
+  [1m[36mPayment Load (0.4ms)[0m  [1m[34mSELECT "payments".* FROM "payments" WHERE "payments"."modality" = $1 AND "payments"."value" = $2 LIMIT $3[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["LIMIT", 1]]
+  ↳ app/services/Create/Payment.rb:11:in `block in create'
+  [1m[36mPayment Create (0.6ms)[0m  [1m[32mINSERT INTO "payments" ("modality", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["created_at", "2021-05-17 23:44:03.292751"], ["updated_at", "2021-05-17 23:44:03.292751"]]
+  ↳ app/services/Create/Payment.rb:11:in `block in create'
+  [1m[36mOrder Load (0.5ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."external_code" = $1 AND "orders"."store_id" = $2 AND "orders"."sub_total" = $3 AND "orders"."delivery_fee" = $4 AND "orders"."total" = $5 AND "orders"."dt_order_create" = $6 AND "orders"."postal_code" = $7 AND "orders"."number" = $8 AND "orders"."total_shipping" = $9 AND "orders"."address_id" = $10 AND "orders"."customers_id" = $11 AND "orders"."items_id" = $12 AND "orders"."payments_id" = $13 LIMIT $14[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.9"], ["delivery_fee", "5.14"], ["total", "55.04"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["total_shipping", 5.14], ["address_id", 1], ["customers_id", 1], ["items_id", 1], ["payments_id", 1], ["LIMIT", 1]]
+  ↳ app/services/Create/Order.rb:14:in `make'
+  [1m[36mOrder Create (1.1ms)[0m  [1m[32mINSERT INTO "orders" ("external_code", "store_id", "sub_total", "delivery_fee", "total", "dt_order_create", "postal_code", "number", "total_shipping", "created_at", "updated_at", "address_id", "customers_id", "items_id", "payments_id") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING "id"[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.9"], ["delivery_fee", "5.14"], ["total", "55.04"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["total_shipping", 5.14], ["created_at", "2021-05-17 23:44:03.315410"], ["updated_at", "2021-05-17 23:44:03.315410"], ["address_id", 1], ["customers_id", 1], ["items_id", 1], ["payments_id", 1]]
+  ↳ app/services/Create/Order.rb:14:in `make'
+  [1m[35m (1.4ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/api/v2/orders_controller.rb:5:in `create'
+Completed 200 OK in 811ms (Views: 0.3ms | ActiveRecord: 30.3ms | Allocations: 41184)
+
+
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (21.2ms)[0m  [1m[35mDROP DATABASE IF EXISTS "delivery_ruby_development"[0m
+  [1m[35m (41.4ms)[0m  [1m[35mDROP DATABASE IF EXISTS "delivery_ruby_test"[0m
+  [1m[35m (152.2ms)[0m  [1m[35mCREATE DATABASE "delivery_ruby_development" ENCODING = 'unicode'[0m
+  [1m[35m (134.2ms)[0m  [1m[35mCREATE DATABASE "delivery_ruby_test" ENCODING = 'unicode'[0m
+  [1m[35m (9.3ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (6.9ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(3914982336954686550)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateOrders (20200910210436)
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (15.4ms)[0m  [1m[35mCREATE TABLE "orders" ("id" bigserial primary key, "external_code" character varying, "store_id" integer, "sub_total" character varying, "delivery_fee" character varying, "total" character varying, "country" character varying, "state" character varying, "city" character varying, "district" character varying, "street" character varying, "complement" character varying, "latitude" decimal(10,6), "longitude" decimal(10,6), "dt_order_create" character varying, "postal_code" character varying, "number" character varying, "total_shipping" float, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910210436"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateCustumers (20200910210918)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (7.4ms)[0m  [1m[35mCREATE TABLE "customers" ("id" bigserial primary key, "external_id" character varying, "name" character varying, "email" character varying, "contact" character varying, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_89866406f0"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE  INDEX  "index_customers_on_order_id" ON "customers"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910210918"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateItems (20200910211249)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.2ms)[0m  [1m[35mCREATE TABLE "items" ("id" bigserial primary key, "external_code" character varying, "name" character varying, "price" float, "quantity" integer, "total" float, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_53153f3b4b"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE  INDEX  "index_items_on_order_id" ON "items"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910211249"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreatePayments (20200910211443)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.3ms)[0m  [1m[35mCREATE TABLE "payments" ("id" bigserial primary key, "modality" character varying, "value" float, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_6af949464b"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (2.4ms)[0m  [1m[35mCREATE  INDEX  "index_payments_on_order_id" ON "payments"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910211443"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelCustomer (20210515015432)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "customers" DROP COLUMN "order_id"[0m
+  [1m[35m (0.8ms)[0m  [1m[35mALTER TABLE "customers" DROP COLUMN "external_id"[0m
+  [1m[35m (0.6ms)[0m  [1m[35mALTER TABLE "customers" ADD "external_code" character varying[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515015432"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelItems (20210515020157)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.7ms)[0m  [1m[35mALTER TABLE "items" DROP COLUMN "order_id"[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515020157"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelOrder (20210515021115)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "latitude"[0m
+  [1m[35m (1.6ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "longitude"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "complement"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "street"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "state"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "city"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "district"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "country"[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515021115"]]
+  [1m[35m (0.8ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelPayments (20210515021946)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.8ms)[0m  [1m[35mALTER TABLE "payments" DROP COLUMN "order_id"[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515021946"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateAddresses (20210515022236)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.4ms)[0m  [1m[35mCREATE TABLE "addresses" ("id" bigserial primary key, "country" character varying, "state" character varying, "city" character varying, "district" character varying, "street" character varying, "complement" character varying, "latitude" character varying, "longitude" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515022236"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddReferencesInOrder (20210516133749)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.7ms)[0m  [1m[35mALTER TABLE "order" ADD "address_id" bigint[0m
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(3914982336954686550)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.5ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.6ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2021-05-17 23:45:05.611326"], ["updated_at", "2021-05-17 23:45:05.611326"]]
+  [1m[35m (2.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE DATABASE "delivery_ruby_development" ENCODING = 'unicode'[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE DATABASE "delivery_ruby_test" ENCODING = 'unicode'[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT pg_try_advisory_lock(3914982336954686550)[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to AddReferencesInOrder (20210516133749)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.6ms)[0m  [1m[35mALTER TABLE "order" ADD "address_id" bigint[0m
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(3914982336954686550)[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE DATABASE "delivery_ruby_development" ENCODING = 'unicode'[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE DATABASE "delivery_ruby_test" ENCODING = 'unicode'[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(3914982336954686550)[0m
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to AddReferencesInOrder (20210516133749)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.6ms)[0m  [1m[35mALTER TABLE "orders" ADD "address_id" bigint[0m
+  [1m[35m (4.5ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_address_id" ON "orders"  ("address_id")[0m
+  [1m[35m (2.0ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_774ef80392"
+FOREIGN KEY ("address_id")
+  REFERENCES "addresses" ("id")
+[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" ADD "customers_id" bigint[0m
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_customers_id" ON "orders"  ("customers_id")[0m
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_a4cda5ee73"
+FOREIGN KEY ("customers_id")
+  REFERENCES "customers" ("id")
+[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" ADD "items_id" bigint[0m
+  [1m[35m (2.4ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_items_id" ON "orders"  ("items_id")[0m
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_58daaeeb67"
+FOREIGN KEY ("items_id")
+  REFERENCES "items" ("id")
+[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" ADD "payments_id" bigint[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_payments_id" ON "orders"  ("payments_id")[0m
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_ee017e1be7"
+FOREIGN KEY ("payments_id")
+  REFERENCES "payments" ("id")
+[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210516133749"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(3914982336954686550)[0m
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (41.3ms)[0m  [1m[35mDROP DATABASE IF EXISTS "delivery_ruby_development"[0m
+  [1m[35m (27.5ms)[0m  [1m[35mDROP DATABASE IF EXISTS "delivery_ruby_test"[0m
+  [1m[35m (138.5ms)[0m  [1m[35mCREATE DATABASE "delivery_ruby_development" ENCODING = 'unicode'[0m
+  [1m[35m (126.7ms)[0m  [1m[35mCREATE DATABASE "delivery_ruby_test" ENCODING = 'unicode'[0m
+  [1m[35m (10.5ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (8.3ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT pg_try_advisory_lock(3914982336954686550)[0m
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateOrders (20200910210436)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (10.3ms)[0m  [1m[35mCREATE TABLE "orders" ("id" bigserial primary key, "external_code" character varying, "store_id" integer, "sub_total" character varying, "delivery_fee" character varying, "total" character varying, "country" character varying, "state" character varying, "city" character varying, "district" character varying, "street" character varying, "complement" character varying, "latitude" decimal(10,6), "longitude" decimal(10,6), "dt_order_create" character varying, "postal_code" character varying, "number" character varying, "total_shipping" float, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910210436"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateCustumers (20200910210918)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.8ms)[0m  [1m[35mCREATE TABLE "customers" ("id" bigserial primary key, "external_id" character varying, "name" character varying, "email" character varying, "contact" character varying, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_89866406f0"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE  INDEX  "index_customers_on_order_id" ON "customers"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910210918"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateItems (20200910211249)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.3ms)[0m  [1m[35mCREATE TABLE "items" ("id" bigserial primary key, "external_code" character varying, "name" character varying, "price" float, "quantity" integer, "total" float, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_53153f3b4b"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE  INDEX  "index_items_on_order_id" ON "items"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910211249"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreatePayments (20200910211443)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.4ms)[0m  [1m[35mCREATE TABLE "payments" ("id" bigserial primary key, "modality" character varying, "value" float, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_6af949464b"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE  INDEX  "index_payments_on_order_id" ON "payments"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910211443"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelCustomer (20210515015432)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.8ms)[0m  [1m[35mALTER TABLE "customers" DROP COLUMN "order_id"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "customers" DROP COLUMN "external_id"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "customers" ADD "external_code" character varying[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515015432"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelItems (20210515020157)
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.6ms)[0m  [1m[35mALTER TABLE "items" DROP COLUMN "order_id"[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515020157"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelOrder (20210515021115)
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "latitude"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "longitude"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "complement"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "street"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "state"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "city"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "district"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "country"[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515021115"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelPayments (20210515021946)
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.6ms)[0m  [1m[35mALTER TABLE "payments" DROP COLUMN "order_id"[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515021946"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateAddresses (20210515022236)
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.0ms)[0m  [1m[35mCREATE TABLE "addresses" ("id" bigserial primary key, "country" character varying, "state" character varying, "city" character varying, "district" character varying, "street" character varying, "complement" character varying, "latitude" character varying, "longitude" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515022236"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddReferencesInOrder (20210516133749)
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_advisory_unlock(3914982336954686550)[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.6ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2021-05-17 23:47:31.955912"], ["updated_at", "2021-05-17 23:47:31.955912"]]
+  [1m[35m (1.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (30.8ms)[0m  [1m[35mDROP DATABASE IF EXISTS "delivery_ruby_development"[0m
+  [1m[35m (20.1ms)[0m  [1m[35mDROP DATABASE IF EXISTS "delivery_ruby_test"[0m
+  [1m[35m (137.9ms)[0m  [1m[35mCREATE DATABASE "delivery_ruby_development" ENCODING = 'unicode'[0m
+  [1m[35m (132.0ms)[0m  [1m[35mCREATE DATABASE "delivery_ruby_test" ENCODING = 'unicode'[0m
+  [1m[35m (8.6ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (6.5ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT pg_try_advisory_lock(3914982336954686550)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateOrders (20200910210436)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (8.0ms)[0m  [1m[35mCREATE TABLE "orders" ("id" bigserial primary key, "external_code" character varying, "store_id" integer, "sub_total" character varying, "delivery_fee" character varying, "total" character varying, "country" character varying, "state" character varying, "city" character varying, "district" character varying, "street" character varying, "complement" character varying, "latitude" decimal(10,6), "longitude" decimal(10,6), "dt_order_create" character varying, "postal_code" character varying, "number" character varying, "total_shipping" float, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910210436"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateCustumers (20200910210918)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (8.1ms)[0m  [1m[35mCREATE TABLE "customers" ("id" bigserial primary key, "external_id" character varying, "name" character varying, "email" character varying, "contact" character varying, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_89866406f0"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE  INDEX  "index_customers_on_order_id" ON "customers"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910210918"]]
+  [1m[35m (1.3ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateItems (20200910211249)
+  [1m[35m (0.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.6ms)[0m  [1m[35mCREATE TABLE "items" ("id" bigserial primary key, "external_code" character varying, "name" character varying, "price" float, "quantity" integer, "total" float, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_53153f3b4b"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE  INDEX  "index_items_on_order_id" ON "items"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910211249"]]
+  [1m[35m (1.7ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreatePayments (20200910211443)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.5ms)[0m  [1m[35mCREATE TABLE "payments" ("id" bigserial primary key, "modality" character varying, "value" float, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_6af949464b"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE  INDEX  "index_payments_on_order_id" ON "payments"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910211443"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelCustomer (20210515015432)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.9ms)[0m  [1m[35mALTER TABLE "customers" DROP COLUMN "order_id"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "customers" DROP COLUMN "external_id"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "customers" ADD "external_code" character varying[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515015432"]]
+  [1m[35m (1.6ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelItems (20210515020157)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.7ms)[0m  [1m[35mALTER TABLE "items" DROP COLUMN "order_id"[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515020157"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelOrder (20210515021115)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.5ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "latitude"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "longitude"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "complement"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "street"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "state"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "city"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "district"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "country"[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515021115"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelPayments (20210515021946)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.7ms)[0m  [1m[35mALTER TABLE "payments" DROP COLUMN "order_id"[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515021946"]]
+  [1m[35m (2.4ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateAddresses (20210515022236)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (7.1ms)[0m  [1m[35mCREATE TABLE "addresses" ("id" bigserial primary key, "country" character varying, "state" character varying, "city" character varying, "district" character varying, "street" character varying, "complement" character varying, "latitude" character varying, "longitude" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515022236"]]
+  [1m[35m (1.3ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddReferencesInOrder (20210516133749)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210516133749"]]
+  [1m[35m (1.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.6ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2021-05-17 23:47:47.771977"], ["updated_at", "2021-05-17 23:47:47.771977"]]
+  [1m[35m (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(3914982336954686550)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (39.2ms)[0m  [1m[35mDROP DATABASE IF EXISTS "delivery_ruby_development"[0m
+  [1m[35m (25.2ms)[0m  [1m[35mDROP DATABASE IF EXISTS "delivery_ruby_test"[0m
+  [1m[35m (179.9ms)[0m  [1m[35mCREATE DATABASE "delivery_ruby_development" ENCODING = 'unicode'[0m
+  [1m[35m (163.1ms)[0m  [1m[35mCREATE DATABASE "delivery_ruby_test" ENCODING = 'unicode'[0m
+  [1m[35m (19.5ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (9.9ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT pg_try_advisory_lock(3914982336954686550)[0m
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateOrders (20200910210436)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (12.5ms)[0m  [1m[35mCREATE TABLE "orders" ("id" bigserial primary key, "external_code" character varying, "store_id" integer, "sub_total" character varying, "delivery_fee" character varying, "total" character varying, "country" character varying, "state" character varying, "city" character varying, "district" character varying, "street" character varying, "complement" character varying, "latitude" decimal(10,6), "longitude" decimal(10,6), "dt_order_create" character varying, "postal_code" character varying, "number" character varying, "total_shipping" float, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.9ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910210436"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateCustumers (20200910210918)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (7.2ms)[0m  [1m[35mCREATE TABLE "customers" ("id" bigserial primary key, "external_id" character varying, "name" character varying, "email" character varying, "contact" character varying, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_89866406f0"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE  INDEX  "index_customers_on_order_id" ON "customers"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910210918"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateItems (20200910211249)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (7.5ms)[0m  [1m[35mCREATE TABLE "items" ("id" bigserial primary key, "external_code" character varying, "name" character varying, "price" float, "quantity" integer, "total" float, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_53153f3b4b"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (3.1ms)[0m  [1m[35mCREATE  INDEX  "index_items_on_order_id" ON "items"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.8ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910211249"]]
+  [1m[35m (1.7ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreatePayments (20200910211443)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (8.7ms)[0m  [1m[35mCREATE TABLE "payments" ("id" bigserial primary key, "modality" character varying, "value" float, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_6af949464b"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCREATE  INDEX  "index_payments_on_order_id" ON "payments"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910211443"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelCustomer (20210515015432)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "customers" DROP COLUMN "order_id"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "customers" DROP COLUMN "external_id"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "customers" ADD "external_code" character varying[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515015432"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelItems (20210515020157)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.9ms)[0m  [1m[35mALTER TABLE "items" DROP COLUMN "order_id"[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515020157"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelOrder (20210515021115)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "latitude"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "longitude"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "complement"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "street"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "state"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "city"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "district"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "country"[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515021115"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelPayments (20210515021946)
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.7ms)[0m  [1m[35mALTER TABLE "payments" DROP COLUMN "order_id"[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515021946"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateAddresses (20210515022236)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.1ms)[0m  [1m[35mCREATE TABLE "addresses" ("id" bigserial primary key, "country" character varying, "state" character varying, "city" character varying, "district" character varying, "street" character varying, "complement" character varying, "latitude" character varying, "longitude" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515022236"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddReferencesInOrder (20210516133749)
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" ADD "customers_id" bigint[0m
+  [1m[35m (3.1ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_customers_id" ON "orders"  ("customers_id")[0m
+  [1m[35m (1.1ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_a4cda5ee73"
+FOREIGN KEY ("customers_id")
+  REFERENCES "customers" ("id")
+[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210516133749"]]
+  [1m[35m (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.5ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2021-05-17 23:49:55.346009"], ["updated_at", "2021-05-17 23:49:55.346009"]]
+  [1m[35m (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(3914982336954686550)[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (21.4ms)[0m  [1m[35mDROP DATABASE IF EXISTS "delivery_ruby_development"[0m
+  [1m[35m (34.0ms)[0m  [1m[35mDROP DATABASE IF EXISTS "delivery_ruby_test"[0m
+  [1m[35m (140.1ms)[0m  [1m[35mCREATE DATABASE "delivery_ruby_development" ENCODING = 'unicode'[0m
+  [1m[35m (141.4ms)[0m  [1m[35mCREATE DATABASE "delivery_ruby_test" ENCODING = 'unicode'[0m
+  [1m[35m (10.6ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (8.8ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT pg_try_advisory_lock(3914982336954686550)[0m
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateOrders (20200910210436)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (8.1ms)[0m  [1m[35mCREATE TABLE "orders" ("id" bigserial primary key, "external_code" character varying, "store_id" integer, "sub_total" character varying, "delivery_fee" character varying, "total" character varying, "country" character varying, "state" character varying, "city" character varying, "district" character varying, "street" character varying, "complement" character varying, "latitude" decimal(10,6), "longitude" decimal(10,6), "dt_order_create" character varying, "postal_code" character varying, "number" character varying, "total_shipping" float, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910210436"]]
+  [1m[35m (1.3ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateCustumers (20200910210918)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (7.2ms)[0m  [1m[35mCREATE TABLE "customers" ("id" bigserial primary key, "external_id" character varying, "name" character varying, "email" character varying, "contact" character varying, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_89866406f0"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (2.7ms)[0m  [1m[35mCREATE  INDEX  "index_customers_on_order_id" ON "customers"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910210918"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateItems (20200910211249)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.7ms)[0m  [1m[35mCREATE TABLE "items" ("id" bigserial primary key, "external_code" character varying, "name" character varying, "price" float, "quantity" integer, "total" float, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_53153f3b4b"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (2.9ms)[0m  [1m[35mCREATE  INDEX  "index_items_on_order_id" ON "items"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910211249"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreatePayments (20200910211443)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.5ms)[0m  [1m[35mCREATE TABLE "payments" ("id" bigserial primary key, "modality" character varying, "value" float, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_6af949464b"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (2.4ms)[0m  [1m[35mCREATE  INDEX  "index_payments_on_order_id" ON "payments"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910211443"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelCustomer (20210515015432)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.9ms)[0m  [1m[35mALTER TABLE "customers" DROP COLUMN "order_id"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "customers" DROP COLUMN "external_id"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "customers" ADD "external_code" character varying[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515015432"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelItems (20210515020157)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.7ms)[0m  [1m[35mALTER TABLE "items" DROP COLUMN "order_id"[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515020157"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelOrder (20210515021115)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "latitude"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "longitude"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "complement"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "street"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "state"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "city"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "district"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "country"[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515021115"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelPayments (20210515021946)
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.6ms)[0m  [1m[35mALTER TABLE "payments" DROP COLUMN "order_id"[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515021946"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateAddresses (20210515022236)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.0ms)[0m  [1m[35mCREATE TABLE "addresses" ("id" bigserial primary key, "country" character varying, "state" character varying, "city" character varying, "district" character varying, "street" character varying, "complement" character varying, "latitude" character varying, "longitude" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515022236"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddReferencesInOrder (20210516133749)
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" ADD "address_id" bigint[0m
+  [1m[35m (3.0ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_address_id" ON "orders"  ("address_id")[0m
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_774ef80392"
+FOREIGN KEY ("address_id")
+  REFERENCES "addresses" ("id")
+[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" ADD "customers_id" bigint[0m
+  [1m[35m (3.1ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_customers_id" ON "orders"  ("customers_id")[0m
+  [1m[35m (2.1ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_a4cda5ee73"
+FOREIGN KEY ("customers_id")
+  REFERENCES "customers" ("id")
+[0m
+  [1m[35m (0.6ms)[0m  [1m[35mALTER TABLE "orders" ADD "items_id" bigint[0m
+  [1m[35m (3.1ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_items_id" ON "orders"  ("items_id")[0m
+  [1m[35m (1.9ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_58daaeeb67"
+FOREIGN KEY ("items_id")
+  REFERENCES "items" ("id")
+[0m
+  [1m[35m (0.5ms)[0m  [1m[35mALTER TABLE "orders" ADD "payments_id" bigint[0m
+  [1m[35m (2.9ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_payments_id" ON "orders"  ("payments_id")[0m
+  [1m[35m (1.2ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_ee017e1be7"
+FOREIGN KEY ("payments_id")
+  REFERENCES "payments" ("id")
+[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210516133749"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.5ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2021-05-17 23:50:11.556456"], ["updated_at", "2021-05-17 23:50:11.556456"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(3914982336954686550)[0m
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started POST "/api/v2/orders" for ::1 at 2021-05-17 20:50:19 -0300
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Api::V2::OrdersController#create as */*
+  Parameters: {"id"=>9987071, "store_id"=>282, "date_created"=>"2019-06-24T16:45:32.000-04:00", "date_closed"=>"2019-06-24T16:45:35.000-04:00", "last_updated"=>"2019-06-25T13:26:49.000-04:00", "total_amount"=>49.9, "total_shipping"=>5.14, "total_amount_with_shipping"=>55.04, "paid_amount"=>55.04, "expiration_date"=>"2019-07-22T16:45:35.000-04:00", "order_items"=>[{"item"=>{"id"=>"IT4801901403", "title"=>"Produto de Testes"}, "quantity"=>1, "unit_price"=>49.9, "full_unit_price"=>49.9}], "payments"=>[{"id"=>12312313, "order_id"=>9987071, "payer_id"=>414138, "installments"=>1, "payment_type"=>"credit_card", "status"=>"paid", "transaction_amount"=>49.9, "taxes_amount"=>0, "shipping_cost"=>5.14, "total_paid_amount"=>55.04, "installment_amount"=>55.04, "date_approved"=>"2019-06-24T16:45:35.000-04:00", "date_created"=>"2019-06-24T16:45:33.000-04:00"}], "shipping"=>{"id"=>43444211797, "shipment_type"=>"shipping", "date_created"=>"2019-06-24T16:45:33.000-04:00", "receiver_address"=>{"id"=>1051695306, "address_line"=>"Rua de Testes Fake 3454", "street_name"=>"Rua de Testes Fake", "street_number"=>"3454", "comment"=>"galpao", "zip_code"=>"85045020", "city"=>{"name"=>"Cidade de Testes"}, "state"=>{"id"=>"SP", "name"=>"São Paulo"}, "country"=>{"id"=>"BR", "name"=>"Brasil"}, "neighborhood"=>{"id"=>nil, "name"=>"Vila de Testes"}, "latitude"=>-23.629037, "longitude"=>-46.712689, "receiver_phone"=>"41999999999"}}, "status"=>"paid", "buyer"=>{"id"=>136226073, "nickname"=>"JOHN DOE", "email"=>"john@doe.com", "phone"=>{"area_code"=>41, "number"=>"999999999"}, "first_name"=>"John", "last_name"=>"Doe", "billing_info"=>{"doc_type"=>"CPF", "doc_number"=>"09487965477"}}, "order"=>{"id"=>9987071, "store_id"=>282, "total_shipping"=>5.14}}
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mAddress Load (0.7ms)[0m  [1m[34mSELECT "addresses".* FROM "addresses" WHERE "addresses"."country" = $1 AND "addresses"."state" = $2 AND "addresses"."city" = $3 AND "addresses"."district" = $4 AND "addresses"."street" = $5 AND "addresses"."complement" = $6 AND "addresses"."latitude" = $7 AND "addresses"."longitude" = $8 LIMIT $9[0m  [["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["LIMIT", 1]]
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mAddress Create (0.7ms)[0m  [1m[32mINSERT INTO "addresses" ("country", "state", "city", "district", "street", "complement", "latitude", "longitude", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["created_at", "2021-05-17 23:50:19.990243"], ["updated_at", "2021-05-17 23:50:19.990243"]]
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mCustomer Load (0.4ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."external_code" = $1 AND "customers"."name" = $2 AND "customers"."email" = $3 AND "customers"."contact" = $4 LIMIT $5[0m  [["external_code", "136226073"], ["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["LIMIT", 1]]
+  ↳ app/services/Create/Customer.rb:10:in `create'
+  [1m[36mCustomer Create (0.5ms)[0m  [1m[32mINSERT INTO "customers" ("name", "email", "contact", "created_at", "updated_at", "external_code") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["created_at", "2021-05-17 23:50:20.009058"], ["updated_at", "2021-05-17 23:50:20.009058"], ["external_code", "136226073"]]
+  ↳ app/services/Create/Customer.rb:10:in `create'
+  [1m[36mItem Load (0.3ms)[0m  [1m[34mSELECT "items".* FROM "items" WHERE "items"."external_code" = $1 AND "items"."name" = $2 AND "items"."price" = $3 AND "items"."quantity" = $4 AND "items"."total" = $5 LIMIT $6[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["LIMIT", 1]]
+  ↳ app/services/Create/Item.rb:11:in `block in create'
+  [1m[36mItem Create (0.6ms)[0m  [1m[32mINSERT INTO "items" ("external_code", "name", "price", "quantity", "total", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["created_at", "2021-05-17 23:50:20.024862"], ["updated_at", "2021-05-17 23:50:20.024862"]]
+  ↳ app/services/Create/Item.rb:11:in `block in create'
+  [1m[36mPayment Load (0.2ms)[0m  [1m[34mSELECT "payments".* FROM "payments" WHERE "payments"."modality" = $1 AND "payments"."value" = $2 LIMIT $3[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["LIMIT", 1]]
+  ↳ app/services/Create/Payment.rb:11:in `block in create'
+  [1m[36mPayment Create (0.6ms)[0m  [1m[32mINSERT INTO "payments" ("modality", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["created_at", "2021-05-17 23:50:20.039133"], ["updated_at", "2021-05-17 23:50:20.039133"]]
+  ↳ app/services/Create/Payment.rb:11:in `block in create'
+  [1m[36mOrder Load (0.8ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."external_code" = $1 AND "orders"."store_id" = $2 AND "orders"."sub_total" = $3 AND "orders"."delivery_fee" = $4 AND "orders"."total" = $5 AND "orders"."dt_order_create" = $6 AND "orders"."postal_code" = $7 AND "orders"."number" = $8 AND "orders"."total_shipping" = $9 AND "orders"."address_id" = $10 AND "orders"."customers_id" = $11 AND "orders"."items_id" = $12 AND "orders"."payments_id" = $13 LIMIT $14[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.9"], ["delivery_fee", "5.14"], ["total", "55.04"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["total_shipping", 5.14], ["address_id", 1], ["customers_id", 1], ["items_id", 1], ["payments_id", 1], ["LIMIT", 1]]
+  ↳ app/services/Create/Order.rb:14:in `make'
+  [1m[36mOrder Create (1.0ms)[0m  [1m[32mINSERT INTO "orders" ("external_code", "store_id", "sub_total", "delivery_fee", "total", "dt_order_create", "postal_code", "number", "total_shipping", "created_at", "updated_at", "address_id", "customers_id", "items_id", "payments_id") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING "id"[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.9"], ["delivery_fee", "5.14"], ["total", "55.04"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["total_shipping", 5.14], ["created_at", "2021-05-17 23:50:20.061205"], ["updated_at", "2021-05-17 23:50:20.061205"], ["address_id", 1], ["customers_id", 1], ["items_id", 1], ["payments_id", 1]]
+  ↳ app/services/Create/Order.rb:14:in `make'
+  [1m[35m (1.8ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/api/v2/orders_controller.rb:5:in `create'
+Completed 200 OK in 786ms (Views: 0.2ms | ActiveRecord: 27.9ms | Allocations: 41414)
+
+
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (27.7ms)[0m  [1m[35mDROP DATABASE IF EXISTS "delivery_ruby_development"[0m
+  [1m[35m (34.3ms)[0m  [1m[35mDROP DATABASE IF EXISTS "delivery_ruby_test"[0m
+  [1m[35m (144.1ms)[0m  [1m[35mCREATE DATABASE "delivery_ruby_development" ENCODING = 'unicode'[0m
+  [1m[35m (125.6ms)[0m  [1m[35mCREATE DATABASE "delivery_ruby_test" ENCODING = 'unicode'[0m
+  [1m[35m (17.3ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (10.1ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT pg_try_advisory_lock(3914982336954686550)[0m
+  [1m[35m (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateOrders (20200910210436)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (12.8ms)[0m  [1m[35mCREATE TABLE "orders" ("id" bigserial primary key, "external_code" character varying, "store_id" integer, "sub_total" character varying, "delivery_fee" character varying, "total" character varying, "country" character varying, "state" character varying, "city" character varying, "district" character varying, "street" character varying, "complement" character varying, "latitude" decimal(10,6), "longitude" decimal(10,6), "dt_order_create" character varying, "postal_code" character varying, "number" character varying, "total_shipping" float, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910210436"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateCustumers (20200910210918)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (7.0ms)[0m  [1m[35mCREATE TABLE "customers" ("id" bigserial primary key, "external_id" character varying, "name" character varying, "email" character varying, "contact" character varying, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_89866406f0"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCREATE  INDEX  "index_customers_on_order_id" ON "customers"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910210918"]]
+  [1m[35m (1.4ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateItems (20200910211249)
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (9.2ms)[0m  [1m[35mCREATE TABLE "items" ("id" bigserial primary key, "external_code" character varying, "name" character varying, "price" float, "quantity" integer, "total" float, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_53153f3b4b"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (2.7ms)[0m  [1m[35mCREATE  INDEX  "index_items_on_order_id" ON "items"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910211249"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreatePayments (20200910211443)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (7.3ms)[0m  [1m[35mCREATE TABLE "payments" ("id" bigserial primary key, "modality" character varying, "value" float, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_6af949464b"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCREATE  INDEX  "index_payments_on_order_id" ON "payments"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910211443"]]
+  [1m[35m (1.4ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelCustomer (20210515015432)
+  [1m[35m (0.7ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.6ms)[0m  [1m[35mALTER TABLE "customers" DROP COLUMN "order_id"[0m
+  [1m[35m (0.8ms)[0m  [1m[35mALTER TABLE "customers" DROP COLUMN "external_id"[0m
+  [1m[35m (0.9ms)[0m  [1m[35mALTER TABLE "customers" ADD "external_code" character varying[0m
+  [1m[36mprimary::SchemaMigration Create (0.8ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515015432"]]
+  [1m[35m (12.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelItems (20210515020157)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.9ms)[0m  [1m[35mALTER TABLE "items" DROP COLUMN "order_id"[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515020157"]]
+  [1m[35m (1.3ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelOrder (20210515021115)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.5ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "latitude"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "longitude"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "complement"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "street"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "state"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "city"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "district"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "country"[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515021115"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelPayments (20210515021946)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.7ms)[0m  [1m[35mALTER TABLE "payments" DROP COLUMN "order_id"[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515021946"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateAddresses (20210515022236)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.0ms)[0m  [1m[35mCREATE TABLE "addresses" ("id" bigserial primary key, "country" character varying, "state" character varying, "city" character varying, "district" character varying, "street" character varying, "complement" character varying, "latitude" character varying, "longitude" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515022236"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddReferencesInOrder (20210516133749)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" ADD "address_id" bigint[0m
+  [1m[35m (2.7ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_address_id" ON "orders"  ("address_id")[0m
+  [1m[35m (0.9ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_774ef80392"
+FOREIGN KEY ("address_id")
+  REFERENCES "addresses" ("id")
+[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" ADD "customers_id" bigint[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_customers_id" ON "orders"  ("customers_id")[0m
+  [1m[35m (0.9ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_a4cda5ee73"
+FOREIGN KEY ("customers_id")
+  REFERENCES "customers" ("id")
+[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" ADD "items_id" bigint[0m
+  [1m[35m (2.7ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_items_id" ON "orders"  ("items_id")[0m
+  [1m[35m (0.9ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_58daaeeb67"
+FOREIGN KEY ("items_id")
+  REFERENCES "items" ("id")
+[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" ADD "payments_id" bigint[0m
+  [1m[35m (2.4ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_payments_id" ON "orders"  ("payments_id")[0m
+  [1m[35m (0.9ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_ee017e1be7"
+FOREIGN KEY ("payments_id")
+  REFERENCES "payments" ("id")
+[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210516133749"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2021-05-17 23:51:16.529018"], ["updated_at", "2021-05-17 23:51:16.529018"]]
+  [1m[35m (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(3914982336954686550)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started POST "/api/v2/orders" for ::1 at 2021-05-17 20:51:24 -0300
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Api::V2::OrdersController#create as */*
+  Parameters: {"id"=>9987071, "store_id"=>282, "date_created"=>"2019-06-24T16:45:32.000-04:00", "date_closed"=>"2019-06-24T16:45:35.000-04:00", "last_updated"=>"2019-06-25T13:26:49.000-04:00", "total_amount"=>49.9, "total_shipping"=>5.14, "total_amount_with_shipping"=>55.04, "paid_amount"=>55.04, "expiration_date"=>"2019-07-22T16:45:35.000-04:00", "order_items"=>[{"item"=>{"id"=>"IT4801901403", "title"=>"Produto de Testes"}, "quantity"=>1, "unit_price"=>49.9, "full_unit_price"=>49.9}], "payments"=>[{"id"=>12312313, "order_id"=>9987071, "payer_id"=>414138, "installments"=>1, "payment_type"=>"credit_card", "status"=>"paid", "transaction_amount"=>49.9, "taxes_amount"=>0, "shipping_cost"=>5.14, "total_paid_amount"=>55.04, "installment_amount"=>55.04, "date_approved"=>"2019-06-24T16:45:35.000-04:00", "date_created"=>"2019-06-24T16:45:33.000-04:00"}], "shipping"=>{"id"=>43444211797, "shipment_type"=>"shipping", "date_created"=>"2019-06-24T16:45:33.000-04:00", "receiver_address"=>{"id"=>1051695306, "address_line"=>"Rua de Testes Fake 3454", "street_name"=>"Rua de Testes Fake", "street_number"=>"3454", "comment"=>"galpao", "zip_code"=>"85045020", "city"=>{"name"=>"Cidade de Testes"}, "state"=>{"id"=>"SP", "name"=>"São Paulo"}, "country"=>{"id"=>"BR", "name"=>"Brasil"}, "neighborhood"=>{"id"=>nil, "name"=>"Vila de Testes"}, "latitude"=>-23.629037, "longitude"=>-46.712689, "receiver_phone"=>"41999999999"}}, "status"=>"paid", "buyer"=>{"id"=>136226073, "nickname"=>"JOHN DOE", "email"=>"john@doe.com", "phone"=>{"area_code"=>41, "number"=>"999999999"}, "first_name"=>"John", "last_name"=>"Doe", "billing_info"=>{"doc_type"=>"CPF", "doc_number"=>"09487965477"}}, "order"=>{"id"=>9987071, "store_id"=>282, "total_shipping"=>5.14}}
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mAddress Load (0.7ms)[0m  [1m[34mSELECT "addresses".* FROM "addresses" WHERE "addresses"."country" = $1 AND "addresses"."state" = $2 AND "addresses"."city" = $3 AND "addresses"."district" = $4 AND "addresses"."street" = $5 AND "addresses"."complement" = $6 AND "addresses"."latitude" = $7 AND "addresses"."longitude" = $8 LIMIT $9[0m  [["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["LIMIT", 1]]
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mAddress Create (0.7ms)[0m  [1m[32mINSERT INTO "addresses" ("country", "state", "city", "district", "street", "complement", "latitude", "longitude", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["created_at", "2021-05-17 23:51:24.983189"], ["updated_at", "2021-05-17 23:51:24.983189"]]
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mCustomer Load (0.3ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."external_code" = $1 AND "customers"."name" = $2 AND "customers"."email" = $3 AND "customers"."contact" = $4 LIMIT $5[0m  [["external_code", "136226073"], ["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["LIMIT", 1]]
+  ↳ app/services/Create/Customer.rb:10:in `create'
+  [1m[36mCustomer Create (0.7ms)[0m  [1m[32mINSERT INTO "customers" ("name", "email", "contact", "created_at", "updated_at", "external_code") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["created_at", "2021-05-17 23:51:25.001861"], ["updated_at", "2021-05-17 23:51:25.001861"], ["external_code", "136226073"]]
+  ↳ app/services/Create/Customer.rb:10:in `create'
+  [1m[36mItem Load (0.5ms)[0m  [1m[34mSELECT "items".* FROM "items" WHERE "items"."external_code" = $1 AND "items"."name" = $2 AND "items"."price" = $3 AND "items"."quantity" = $4 AND "items"."total" = $5 LIMIT $6[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["LIMIT", 1]]
+  ↳ app/services/Create/Item.rb:11:in `block in create'
+  [1m[36mItem Create (0.6ms)[0m  [1m[32mINSERT INTO "items" ("external_code", "name", "price", "quantity", "total", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["created_at", "2021-05-17 23:51:25.019834"], ["updated_at", "2021-05-17 23:51:25.019834"]]
+  ↳ app/services/Create/Item.rb:11:in `block in create'
+  [1m[36mPayment Load (0.4ms)[0m  [1m[34mSELECT "payments".* FROM "payments" WHERE "payments"."modality" = $1 AND "payments"."value" = $2 LIMIT $3[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["LIMIT", 1]]
+  ↳ app/services/Create/Payment.rb:11:in `block in create'
+  [1m[36mPayment Create (0.5ms)[0m  [1m[32mINSERT INTO "payments" ("modality", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["created_at", "2021-05-17 23:51:25.033138"], ["updated_at", "2021-05-17 23:51:25.033138"]]
+  ↳ app/services/Create/Payment.rb:11:in `block in create'
+  [1m[36mOrder Load (0.5ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."external_code" = $1 AND "orders"."store_id" = $2 AND "orders"."sub_total" = $3 AND "orders"."delivery_fee" = $4 AND "orders"."total" = $5 AND "orders"."dt_order_create" = $6 AND "orders"."postal_code" = $7 AND "orders"."number" = $8 AND "orders"."total_shipping" = $9 AND "orders"."address_id" = $10 AND "orders"."customers_id" = $11 AND "orders"."items_id" = $12 AND "orders"."payments_id" = $13 LIMIT $14[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.9"], ["delivery_fee", "5.14"], ["total", "55.04"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["total_shipping", 5.14], ["address_id", 1], ["customers_id", 1], ["items_id", 1], ["payments_id", 1], ["LIMIT", 1]]
+  ↳ app/services/Create/Order.rb:14:in `make'
+  [1m[36mOrder Create (1.2ms)[0m  [1m[32mINSERT INTO "orders" ("external_code", "store_id", "sub_total", "delivery_fee", "total", "dt_order_create", "postal_code", "number", "total_shipping", "created_at", "updated_at", "address_id", "customers_id", "items_id", "payments_id") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING "id"[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.9"], ["delivery_fee", "5.14"], ["total", "55.04"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["total_shipping", 5.14], ["created_at", "2021-05-17 23:51:25.056520"], ["updated_at", "2021-05-17 23:51:25.056520"], ["address_id", 1], ["customers_id", 1], ["items_id", 1], ["payments_id", 1]]
+  ↳ app/services/Create/Order.rb:14:in `make'
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/api/v2/orders_controller.rb:5:in `create'
+Completed 200 OK in 762ms (Views: 0.2ms | ActiveRecord: 29.2ms | Allocations: 41652)
+
+
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (20.1ms)[0m  [1m[35mDROP DATABASE IF EXISTS "delivery_ruby_development"[0m
+  [1m[35m (23.2ms)[0m  [1m[35mDROP DATABASE IF EXISTS "delivery_ruby_test"[0m
+  [1m[35m (130.7ms)[0m  [1m[35mCREATE DATABASE "delivery_ruby_development" ENCODING = 'unicode'[0m
+  [1m[35m (115.5ms)[0m  [1m[35mCREATE DATABASE "delivery_ruby_test" ENCODING = 'unicode'[0m
+  [1m[35m (8.6ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (7.7ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(3914982336954686550)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateOrders (20200910210436)
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.6ms)[0m  [1m[35mCREATE TABLE "orders" ("id" bigserial primary key, "external_code" character varying, "store_id" integer, "sub_total" character varying, "delivery_fee" character varying, "total" character varying, "country" character varying, "state" character varying, "city" character varying, "district" character varying, "street" character varying, "complement" character varying, "latitude" decimal(10,6), "longitude" decimal(10,6), "dt_order_create" character varying, "postal_code" character varying, "number" character varying, "total_shipping" float, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910210436"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateCustumers (20200910210918)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.8ms)[0m  [1m[35mCREATE TABLE "customers" ("id" bigserial primary key, "external_id" character varying, "name" character varying, "email" character varying, "contact" character varying, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_89866406f0"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE  INDEX  "index_customers_on_order_id" ON "customers"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910210918"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateItems (20200910211249)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (10.0ms)[0m  [1m[35mCREATE TABLE "items" ("id" bigserial primary key, "external_code" character varying, "name" character varying, "price" float, "quantity" integer, "total" float, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_53153f3b4b"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (3.5ms)[0m  [1m[35mCREATE  INDEX  "index_items_on_order_id" ON "items"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910211249"]]
+  [1m[35m (1.3ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreatePayments (20200910211443)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (7.2ms)[0m  [1m[35mCREATE TABLE "payments" ("id" bigserial primary key, "modality" character varying, "value" float, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_6af949464b"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCREATE  INDEX  "index_payments_on_order_id" ON "payments"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910211443"]]
+  [1m[35m (1.4ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelCustomer (20210515015432)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[35mALTER TABLE "customers" DROP COLUMN "order_id"[0m
+  [1m[35m (0.5ms)[0m  [1m[35mALTER TABLE "customers" DROP COLUMN "external_id"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "customers" ADD "external_code" character varying[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515015432"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelItems (20210515020157)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.8ms)[0m  [1m[35mALTER TABLE "items" DROP COLUMN "order_id"[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515020157"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelOrder (20210515021115)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "latitude"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "longitude"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "complement"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "street"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "state"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "city"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "district"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "country"[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515021115"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelPayments (20210515021946)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.7ms)[0m  [1m[35mALTER TABLE "payments" DROP COLUMN "order_id"[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515021946"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateAddresses (20210515022236)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.0ms)[0m  [1m[35mCREATE TABLE "addresses" ("id" bigserial primary key, "country" character varying, "state" character varying, "city" character varying, "district" character varying, "street" character varying, "complement" character varying, "latitude" character varying, "longitude" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515022236"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddReferencesInOrder (20210516133749)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.9ms)[0m  [1m[35mALTER TABLE "orders" ADD "address_id" bigint[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_address_id" ON "orders"  ("address_id")[0m
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_774ef80392"
+FOREIGN KEY ("address_id")
+  REFERENCES "addresses" ("id")
+[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" ADD "customers_id" bigint[0m
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_customers_id" ON "orders"  ("customers_id")[0m
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_a4cda5ee73"
+FOREIGN KEY ("customers_id")
+  REFERENCES "customers" ("id")
+[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" ADD "items_id" bigint[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_items_id" ON "orders"  ("items_id")[0m
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_58daaeeb67"
+FOREIGN KEY ("items_id")
+  REFERENCES "items" ("id")
+[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" ADD "payments_id" bigint[0m
+  [1m[35m (2.7ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_payments_id" ON "orders"  ("payments_id")[0m
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_ee017e1be7"
+FOREIGN KEY ("payments_id")
+  REFERENCES "payments" ("id")
+[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210516133749"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.5ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2021-05-17 23:51:36.608253"], ["updated_at", "2021-05-17 23:51:36.608253"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_advisory_unlock(3914982336954686550)[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (29.4ms)[0m  [1m[35mDROP DATABASE IF EXISTS "delivery_ruby_development"[0m
+  [1m[35m (19.8ms)[0m  [1m[35mDROP DATABASE IF EXISTS "delivery_ruby_test"[0m
+  [1m[35m (142.8ms)[0m  [1m[35mCREATE DATABASE "delivery_ruby_development" ENCODING = 'unicode'[0m
+  [1m[35m (154.8ms)[0m  [1m[35mCREATE DATABASE "delivery_ruby_test" ENCODING = 'unicode'[0m
+  [1m[35m (23.1ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (8.0ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT pg_try_advisory_lock(3914982336954686550)[0m
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateOrders (20200910210436)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (13.8ms)[0m  [1m[35mCREATE TABLE "orders" ("id" bigserial primary key, "external_code" character varying, "store_id" integer, "sub_total" character varying, "delivery_fee" character varying, "total" character varying, "country" character varying, "state" character varying, "city" character varying, "district" character varying, "street" character varying, "complement" character varying, "latitude" decimal(10,6), "longitude" decimal(10,6), "dt_order_create" character varying, "postal_code" character varying, "number" character varying, "total_shipping" float, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910210436"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateCustumers (20200910210918)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (7.0ms)[0m  [1m[35mCREATE TABLE "customers" ("id" bigserial primary key, "external_id" character varying, "name" character varying, "email" character varying, "contact" character varying, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_89866406f0"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE  INDEX  "index_customers_on_order_id" ON "customers"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910210918"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateItems (20200910211249)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.1ms)[0m  [1m[35mCREATE TABLE "items" ("id" bigserial primary key, "external_code" character varying, "name" character varying, "price" float, "quantity" integer, "total" float, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_53153f3b4b"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (2.7ms)[0m  [1m[35mCREATE  INDEX  "index_items_on_order_id" ON "items"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910211249"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreatePayments (20200910211443)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.1ms)[0m  [1m[35mCREATE TABLE "payments" ("id" bigserial primary key, "modality" character varying, "value" float, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_6af949464b"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (2.4ms)[0m  [1m[35mCREATE  INDEX  "index_payments_on_order_id" ON "payments"  ("order_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200910211443"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelCustomer (20210515015432)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "customers" DROP COLUMN "order_id"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "customers" DROP COLUMN "external_id"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "customers" ADD "external_code" character varying[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515015432"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelItems (20210515020157)
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.7ms)[0m  [1m[35mALTER TABLE "items" DROP COLUMN "order_id"[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515020157"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelOrder (20210515021115)
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "latitude"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "longitude"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "complement"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "street"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "state"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "city"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "district"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" DROP COLUMN "country"[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515021115"]]
+  [1m[35m (0.8ms)[0m  [1m[35mCOMMIT[0m
+Migrating to RefactorModelPayments (20210515021946)
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.6ms)[0m  [1m[35mALTER TABLE "payments" DROP COLUMN "order_id"[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515021946"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateAddresses (20210515022236)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.7ms)[0m  [1m[35mCREATE TABLE "addresses" ("id" bigserial primary key, "country" character varying, "state" character varying, "city" character varying, "district" character varying, "street" character varying, "complement" character varying, "latitude" character varying, "longitude" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210515022236"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddReferencesInOrder (20210516133749)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" ADD "address_id" bigint[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_address_id" ON "orders"  ("address_id")[0m
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_774ef80392"
+FOREIGN KEY ("address_id")
+  REFERENCES "addresses" ("id")
+[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" ADD "customers_id" bigint[0m
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_customers_id" ON "orders"  ("customers_id")[0m
+  [1m[35m (1.1ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_a4cda5ee73"
+FOREIGN KEY ("customers_id")
+  REFERENCES "customers" ("id")
+[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "orders" ADD "items_id" bigint[0m
+  [1m[35m (2.7ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_items_id" ON "orders"  ("items_id")[0m
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_58daaeeb67"
+FOREIGN KEY ("items_id")
+  REFERENCES "items" ("id")
+[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "orders" ADD "payments_id" bigint[0m
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_payments_id" ON "orders"  ("payments_id")[0m
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "orders" ADD CONSTRAINT "fk_rails_ee017e1be7"
+FOREIGN KEY ("payments_id")
+  REFERENCES "payments" ("id")
+[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210516133749"]]
+  [1m[35m (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.5ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2021-05-17 23:52:38.137248"], ["updated_at", "2021-05-17 23:52:38.137248"]]
+  [1m[35m (4.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(3914982336954686550)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started POST "/api/v2/orders" for ::1 at 2021-05-17 20:52:47 -0300
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Api::V2::OrdersController#create as */*
+  Parameters: {"id"=>9987071, "store_id"=>282, "date_created"=>"2019-06-24T16:45:32.000-04:00", "date_closed"=>"2019-06-24T16:45:35.000-04:00", "last_updated"=>"2019-06-25T13:26:49.000-04:00", "total_amount"=>49.9, "total_shipping"=>5.14, "total_amount_with_shipping"=>55.04, "paid_amount"=>55.04, "expiration_date"=>"2019-07-22T16:45:35.000-04:00", "order_items"=>[{"item"=>{"id"=>"IT4801901403", "title"=>"Produto de Testes"}, "quantity"=>1, "unit_price"=>49.9, "full_unit_price"=>49.9}], "payments"=>[{"id"=>12312313, "order_id"=>9987071, "payer_id"=>414138, "installments"=>1, "payment_type"=>"credit_card", "status"=>"paid", "transaction_amount"=>49.9, "taxes_amount"=>0, "shipping_cost"=>5.14, "total_paid_amount"=>55.04, "installment_amount"=>55.04, "date_approved"=>"2019-06-24T16:45:35.000-04:00", "date_created"=>"2019-06-24T16:45:33.000-04:00"}], "shipping"=>{"id"=>43444211797, "shipment_type"=>"shipping", "date_created"=>"2019-06-24T16:45:33.000-04:00", "receiver_address"=>{"id"=>1051695306, "address_line"=>"Rua de Testes Fake 3454", "street_name"=>"Rua de Testes Fake", "street_number"=>"3454", "comment"=>"galpao", "zip_code"=>"85045020", "city"=>{"name"=>"Cidade de Testes"}, "state"=>{"id"=>"SP", "name"=>"São Paulo"}, "country"=>{"id"=>"BR", "name"=>"Brasil"}, "neighborhood"=>{"id"=>nil, "name"=>"Vila de Testes"}, "latitude"=>-23.629037, "longitude"=>-46.712689, "receiver_phone"=>"41999999999"}}, "status"=>"paid", "buyer"=>{"id"=>136226073, "nickname"=>"JOHN DOE", "email"=>"john@doe.com", "phone"=>{"area_code"=>41, "number"=>"999999999"}, "first_name"=>"John", "last_name"=>"Doe", "billing_info"=>{"doc_type"=>"CPF", "doc_number"=>"09487965477"}}, "order"=>{"id"=>9987071, "store_id"=>282, "total_shipping"=>5.14}}
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mAddress Load (0.6ms)[0m  [1m[34mSELECT "addresses".* FROM "addresses" WHERE "addresses"."country" = $1 AND "addresses"."state" = $2 AND "addresses"."city" = $3 AND "addresses"."district" = $4 AND "addresses"."street" = $5 AND "addresses"."complement" = $6 AND "addresses"."latitude" = $7 AND "addresses"."longitude" = $8 LIMIT $9[0m  [["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["LIMIT", 1]]
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mAddress Create (0.7ms)[0m  [1m[32mINSERT INTO "addresses" ("country", "state", "city", "district", "street", "complement", "latitude", "longitude", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["created_at", "2021-05-17 23:52:48.466597"], ["updated_at", "2021-05-17 23:52:48.466597"]]
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mCustomer Load (0.3ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."external_code" = $1 AND "customers"."name" = $2 AND "customers"."email" = $3 AND "customers"."contact" = $4 LIMIT $5[0m  [["external_code", "136226073"], ["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["LIMIT", 1]]
+  ↳ app/services/Create/Customer.rb:10:in `create'
+  [1m[36mCustomer Create (0.5ms)[0m  [1m[32mINSERT INTO "customers" ("name", "email", "contact", "created_at", "updated_at", "external_code") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["created_at", "2021-05-17 23:52:48.482464"], ["updated_at", "2021-05-17 23:52:48.482464"], ["external_code", "136226073"]]
+  ↳ app/services/Create/Customer.rb:10:in `create'
+  [1m[36mItem Load (0.3ms)[0m  [1m[34mSELECT "items".* FROM "items" WHERE "items"."external_code" = $1 AND "items"."name" = $2 AND "items"."price" = $3 AND "items"."quantity" = $4 AND "items"."total" = $5 LIMIT $6[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["LIMIT", 1]]
+  ↳ app/services/Create/Item.rb:11:in `block in create'
+  [1m[36mItem Create (0.6ms)[0m  [1m[32mINSERT INTO "items" ("external_code", "name", "price", "quantity", "total", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["created_at", "2021-05-17 23:52:48.500960"], ["updated_at", "2021-05-17 23:52:48.500960"]]
+  ↳ app/services/Create/Item.rb:11:in `block in create'
+  [1m[36mPayment Load (0.3ms)[0m  [1m[34mSELECT "payments".* FROM "payments" WHERE "payments"."modality" = $1 AND "payments"."value" = $2 LIMIT $3[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["LIMIT", 1]]
+  ↳ app/services/Create/Payment.rb:11:in `block in create'
+  [1m[36mPayment Create (0.5ms)[0m  [1m[32mINSERT INTO "payments" ("modality", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["created_at", "2021-05-17 23:52:48.514324"], ["updated_at", "2021-05-17 23:52:48.514324"]]
+  ↳ app/services/Create/Payment.rb:11:in `block in create'
+  [1m[36mOrder Load (0.7ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."external_code" = $1 AND "orders"."store_id" = $2 AND "orders"."sub_total" = $3 AND "orders"."delivery_fee" = $4 AND "orders"."total" = $5 AND "orders"."dt_order_create" = $6 AND "orders"."postal_code" = $7 AND "orders"."number" = $8 AND "orders"."total_shipping" = $9 AND "orders"."address_id" = $10 AND "orders"."customers_id" = $11 AND "orders"."items_id" = $12 AND "orders"."payments_id" = $13 LIMIT $14[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.9"], ["delivery_fee", "5.14"], ["total", "55.04"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["total_shipping", 5.14], ["address_id", 1], ["customers_id", 1], ["items_id", 1], ["payments_id", 1], ["LIMIT", 1]]
+  ↳ app/services/Create/Order.rb:14:in `make'
+  [1m[36mOrder Create (1.0ms)[0m  [1m[32mINSERT INTO "orders" ("external_code", "store_id", "sub_total", "delivery_fee", "total", "dt_order_create", "postal_code", "number", "total_shipping", "created_at", "updated_at", "address_id", "customers_id", "items_id", "payments_id") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING "id"[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.9"], ["delivery_fee", "5.14"], ["total", "55.04"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["total_shipping", 5.14], ["created_at", "2021-05-17 23:52:48.537193"], ["updated_at", "2021-05-17 23:52:48.537193"], ["address_id", 1], ["customers_id", 1], ["items_id", 1], ["payments_id", 1]]
+  ↳ app/services/Create/Order.rb:14:in `make'
+  [1m[35m (1.5ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/api/v2/orders_controller.rb:5:in `create'
+Completed 200 OK in 718ms (Views: 0.2ms | ActiveRecord: 25.6ms | Allocations: 42086)
+
+
+Started POST "/api/v2/orders" for ::1 at 2021-05-17 20:53:03 -0300
+Processing by Api::V2::OrdersController#create as */*
+  Parameters: {"id"=>9987071, "store_id"=>282, "date_created"=>"2019-06-24T16:45:32.000-04:00", "date_closed"=>"2019-06-24T16:45:35.000-04:00", "last_updated"=>"2019-06-25T13:26:49.000-04:00", "total_amount"=>49.9, "total_shipping"=>5.14, "total_amount_with_shipping"=>55.04, "paid_amount"=>55.04, "expiration_date"=>"2019-07-22T16:45:35.000-04:00", "order_items"=>[{"item"=>{"id"=>"IT4801901403", "title"=>"Produto de Testes"}, "quantity"=>1, "unit_price"=>49.9, "full_unit_price"=>49.9}], "payments"=>[{"id"=>12312313, "order_id"=>9987071, "payer_id"=>414138, "installments"=>1, "payment_type"=>"credit_card", "status"=>"paid", "transaction_amount"=>49.9, "taxes_amount"=>0, "shipping_cost"=>5.14, "total_paid_amount"=>55.04, "installment_amount"=>55.04, "date_approved"=>"2019-06-24T16:45:35.000-04:00", "date_created"=>"2019-06-24T16:45:33.000-04:00"}], "shipping"=>{"id"=>43444211797, "shipment_type"=>"shipping", "date_created"=>"2019-06-24T16:45:33.000-04:00", "receiver_address"=>{"id"=>1051695306, "address_line"=>"Rua de Testes Fake 3454", "street_name"=>"Rua de Testes Fake", "street_number"=>"3454", "comment"=>"galpao", "zip_code"=>"85045020", "city"=>{"name"=>"Cidade de Testes"}, "state"=>{"id"=>"SP", "name"=>"São Paulo"}, "country"=>{"id"=>"BR", "name"=>"Brasil"}, "neighborhood"=>{"id"=>nil, "name"=>"Vila de Testes"}, "latitude"=>-23.629037, "longitude"=>-46.712689, "receiver_phone"=>"41999999999"}}, "status"=>"paid", "buyer"=>{"id"=>136226073, "nickname"=>"JOHN DOE", "email"=>"john@doe.com", "phone"=>{"area_code"=>41, "number"=>"999999999"}, "first_name"=>"John", "last_name"=>"Doe", "billing_info"=>{"doc_type"=>"CPF", "doc_number"=>"09487965477"}}, "order"=>{"id"=>9987071, "store_id"=>282, "total_shipping"=>5.14}}
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mAddress Load (1.5ms)[0m  [1m[34mSELECT "addresses".* FROM "addresses" WHERE "addresses"."country" = $1 AND "addresses"."state" = $2 AND "addresses"."city" = $3 AND "addresses"."district" = $4 AND "addresses"."street" = $5 AND "addresses"."complement" = $6 AND "addresses"."latitude" = $7 AND "addresses"."longitude" = $8 LIMIT $9[0m  [["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["LIMIT", 1]]
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mCustomer Load (0.9ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."external_code" = $1 AND "customers"."name" = $2 AND "customers"."email" = $3 AND "customers"."contact" = $4 LIMIT $5[0m  [["external_code", "136226073"], ["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["LIMIT", 1]]
+  ↳ app/services/Create/Customer.rb:10:in `create'
+  [1m[36mItem Load (0.9ms)[0m  [1m[34mSELECT "items".* FROM "items" WHERE "items"."external_code" = $1 AND "items"."name" = $2 AND "items"."price" = $3 AND "items"."quantity" = $4 AND "items"."total" = $5 LIMIT $6[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["LIMIT", 1]]
+  ↳ app/services/Create/Item.rb:11:in `block in create'
+  [1m[36mPayment Load (0.9ms)[0m  [1m[34mSELECT "payments".* FROM "payments" WHERE "payments"."modality" = $1 AND "payments"."value" = $2 LIMIT $3[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["LIMIT", 1]]
+  ↳ app/services/Create/Payment.rb:11:in `block in create'
+  [1m[36mOrder Load (1.8ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."external_code" = $1 AND "orders"."store_id" = $2 AND "orders"."sub_total" = $3 AND "orders"."delivery_fee" = $4 AND "orders"."total" = $5 AND "orders"."dt_order_create" = $6 AND "orders"."postal_code" = $7 AND "orders"."number" = $8 AND "orders"."total_shipping" = $9 AND "orders"."address_id" = $10 AND "orders"."customers_id" = $11 AND "orders"."items_id" = $12 AND "orders"."payments_id" = $13 LIMIT $14[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.9"], ["delivery_fee", "5.14"], ["total", "55.04"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["total_shipping", 5.14], ["address_id", 1], ["customers_id", 1], ["items_id", 1], ["payments_id", 1], ["LIMIT", 1]]
+  ↳ app/services/Create/Order.rb:14:in `make'
+  [1m[35m (1.3ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/api/v2/orders_controller.rb:5:in `create'
+Completed 200 OK in 683ms (Views: 0.4ms | ActiveRecord: 7.7ms | Allocations: 7967)
+
+
+Started POST "/api/v2/orders" for ::1 at 2021-05-17 20:53:20 -0300
+Processing by Api::V2::OrdersController#create as */*
+  Parameters: {"id"=>9987071, "store_id"=>282, "date_created"=>"2019-06-24T16:45:32.000-04:00", "date_closed"=>"2019-06-24T16:45:35.000-04:00", "last_updated"=>"2019-06-25T13:26:49.000-04:00", "total_amount"=>49.9, "total_shipping"=>5.14, "total_amount_with_shipping"=>55.04, "paid_amount"=>55.04, "expiration_date"=>"2019-07-22T16:45:35.000-04:00", "order_items"=>[{"item"=>{"id"=>"IT4801901403", "title"=>"Produto de Testes"}, "quantity"=>1, "unit_price"=>49.9, "full_unit_price"=>49.9}], "payments"=>[{"id"=>12312313, "order_id"=>9987071, "payer_id"=>414138, "installments"=>1, "payment_type"=>"credit_card", "status"=>"paid", "transaction_amount"=>49.9, "taxes_amount"=>0, "shipping_cost"=>5.14, "total_paid_amount"=>55.04, "installment_amount"=>55.04, "date_approved"=>"2019-06-24T16:45:35.000-04:00", "date_created"=>"2019-06-24T16:45:33.000-04:00"}], "shipping"=>{"id"=>43444211797, "shipment_type"=>"shipping", "date_created"=>"2019-06-24T16:45:33.000-04:00", "receiver_address"=>{"id"=>1051695306, "address_line"=>"Rua de Testes Fake 3454", "street_name"=>"Rua de Testes Fake", "street_number"=>"3454", "comment"=>"galpao", "zip_code"=>"85045020", "city"=>{"name"=>"Cidade de Testes"}, "state"=>{"id"=>"SP", "name"=>"São Paulo"}, "country"=>{"id"=>"BR", "name"=>"Brasil"}, "neighborhood"=>{"id"=>nil, "name"=>"Vila de katiau"}, "latitude"=>-23.629037, "longitude"=>-46.712689, "receiver_phone"=>"41999999999"}}, "status"=>"paid", "buyer"=>{"id"=>136226073, "nickname"=>"JOHN DOE", "email"=>"john@doe.com", "phone"=>{"area_code"=>41, "number"=>"999999999"}, "first_name"=>"John", "last_name"=>"Doe", "billing_info"=>{"doc_type"=>"CPF", "doc_number"=>"09487965477"}}, "order"=>{"id"=>9987071, "store_id"=>282, "total_shipping"=>5.14}}
+  [1m[35m (0.6ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mAddress Load (1.4ms)[0m  [1m[34mSELECT "addresses".* FROM "addresses" WHERE "addresses"."country" = $1 AND "addresses"."state" = $2 AND "addresses"."city" = $3 AND "addresses"."district" = $4 AND "addresses"."street" = $5 AND "addresses"."complement" = $6 AND "addresses"."latitude" = $7 AND "addresses"."longitude" = $8 LIMIT $9[0m  [["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de katiau"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["LIMIT", 1]]
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mAddress Create (1.6ms)[0m  [1m[32mINSERT INTO "addresses" ("country", "state", "city", "district", "street", "complement", "latitude", "longitude", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de katiau"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["created_at", "2021-05-17 23:53:21.322463"], ["updated_at", "2021-05-17 23:53:21.322463"]]
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mCustomer Load (0.9ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."external_code" = $1 AND "customers"."name" = $2 AND "customers"."email" = $3 AND "customers"."contact" = $4 LIMIT $5[0m  [["external_code", "136226073"], ["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["LIMIT", 1]]
+  ↳ app/services/Create/Customer.rb:10:in `create'
+  [1m[36mItem Load (1.0ms)[0m  [1m[34mSELECT "items".* FROM "items" WHERE "items"."external_code" = $1 AND "items"."name" = $2 AND "items"."price" = $3 AND "items"."quantity" = $4 AND "items"."total" = $5 LIMIT $6[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["LIMIT", 1]]
+  ↳ app/services/Create/Item.rb:11:in `block in create'
+  [1m[36mPayment Load (1.0ms)[0m  [1m[34mSELECT "payments".* FROM "payments" WHERE "payments"."modality" = $1 AND "payments"."value" = $2 LIMIT $3[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["LIMIT", 1]]
+  ↳ app/services/Create/Payment.rb:11:in `block in create'
+  [1m[36mOrder Load (3.5ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."external_code" = $1 AND "orders"."store_id" = $2 AND "orders"."sub_total" = $3 AND "orders"."delivery_fee" = $4 AND "orders"."total" = $5 AND "orders"."dt_order_create" = $6 AND "orders"."postal_code" = $7 AND "orders"."number" = $8 AND "orders"."total_shipping" = $9 AND "orders"."address_id" = $10 AND "orders"."customers_id" = $11 AND "orders"."items_id" = $12 AND "orders"."payments_id" = $13 LIMIT $14[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.9"], ["delivery_fee", "5.14"], ["total", "55.04"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["total_shipping", 5.14], ["address_id", 2], ["customers_id", 1], ["items_id", 1], ["payments_id", 1], ["LIMIT", 1]]
+  ↳ app/services/Create/Order.rb:14:in `make'
+  [1m[36mOrder Create (2.2ms)[0m  [1m[32mINSERT INTO "orders" ("external_code", "store_id", "sub_total", "delivery_fee", "total", "dt_order_create", "postal_code", "number", "total_shipping", "created_at", "updated_at", "address_id", "customers_id", "items_id", "payments_id") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING "id"[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.9"], ["delivery_fee", "5.14"], ["total", "55.04"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["total_shipping", 5.14], ["created_at", "2021-05-17 23:53:21.369808"], ["updated_at", "2021-05-17 23:53:21.369808"], ["address_id", 2], ["customers_id", 1], ["items_id", 1], ["payments_id", 1]]
+  ↳ app/services/Create/Order.rb:14:in `make'
+  [1m[35m (2.1ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/api/v2/orders_controller.rb:5:in `create'
+Completed 200 OK in 754ms (Views: 0.3ms | ActiveRecord: 14.3ms | Allocations: 10269)
+
+
+Started POST "/api/v2/orders" for ::1 at 2021-05-17 20:53:24 -0300
+Processing by Api::V2::OrdersController#create as */*
+  Parameters: {"id"=>9987071, "store_id"=>282, "date_created"=>"2019-06-24T16:45:32.000-04:00", "date_closed"=>"2019-06-24T16:45:35.000-04:00", "last_updated"=>"2019-06-25T13:26:49.000-04:00", "total_amount"=>49.9, "total_shipping"=>5.14, "total_amount_with_shipping"=>55.04, "paid_amount"=>55.04, "expiration_date"=>"2019-07-22T16:45:35.000-04:00", "order_items"=>[{"item"=>{"id"=>"IT4801901403", "title"=>"Produto de Testes"}, "quantity"=>1, "unit_price"=>49.9, "full_unit_price"=>49.9}], "payments"=>[{"id"=>12312313, "order_id"=>9987071, "payer_id"=>414138, "installments"=>1, "payment_type"=>"credit_card", "status"=>"paid", "transaction_amount"=>49.9, "taxes_amount"=>0, "shipping_cost"=>5.14, "total_paid_amount"=>55.04, "installment_amount"=>55.04, "date_approved"=>"2019-06-24T16:45:35.000-04:00", "date_created"=>"2019-06-24T16:45:33.000-04:00"}], "shipping"=>{"id"=>43444211797, "shipment_type"=>"shipping", "date_created"=>"2019-06-24T16:45:33.000-04:00", "receiver_address"=>{"id"=>1051695306, "address_line"=>"Rua de Testes Fake 3454", "street_name"=>"Rua de Testes Fake", "street_number"=>"3454", "comment"=>"galpao", "zip_code"=>"85045020", "city"=>{"name"=>"Cidade de Testes"}, "state"=>{"id"=>"SP", "name"=>"São Paulo"}, "country"=>{"id"=>"BR", "name"=>"Brasil"}, "neighborhood"=>{"id"=>nil, "name"=>"Vila de Testes"}, "latitude"=>-23.629037, "longitude"=>-46.712689, "receiver_phone"=>"41999999999"}}, "status"=>"paid", "buyer"=>{"id"=>136226073, "nickname"=>"JOHN DOE", "email"=>"john@doe.com", "phone"=>{"area_code"=>41, "number"=>"999999999"}, "first_name"=>"John", "last_name"=>"Doe", "billing_info"=>{"doc_type"=>"CPF", "doc_number"=>"09487965477"}}, "order"=>{"id"=>9987071, "store_id"=>282, "total_shipping"=>5.14}}
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mAddress Load (1.0ms)[0m  [1m[34mSELECT "addresses".* FROM "addresses" WHERE "addresses"."country" = $1 AND "addresses"."state" = $2 AND "addresses"."city" = $3 AND "addresses"."district" = $4 AND "addresses"."street" = $5 AND "addresses"."complement" = $6 AND "addresses"."latitude" = $7 AND "addresses"."longitude" = $8 LIMIT $9[0m  [["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["LIMIT", 1]]
+  ↳ app/services/Create/Address.rb:10:in `create'
+  [1m[36mCustomer Load (0.9ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."external_code" = $1 AND "customers"."name" = $2 AND "customers"."email" = $3 AND "customers"."contact" = $4 LIMIT $5[0m  [["external_code", "136226073"], ["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["LIMIT", 1]]
+  ↳ app/services/Create/Customer.rb:10:in `create'
+  [1m[36mItem Load (1.2ms)[0m  [1m[34mSELECT "items".* FROM "items" WHERE "items"."external_code" = $1 AND "items"."name" = $2 AND "items"."price" = $3 AND "items"."quantity" = $4 AND "items"."total" = $5 LIMIT $6[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["LIMIT", 1]]
+  ↳ app/services/Create/Item.rb:11:in `block in create'
+  [1m[36mPayment Load (1.0ms)[0m  [1m[34mSELECT "payments".* FROM "payments" WHERE "payments"."modality" = $1 AND "payments"."value" = $2 LIMIT $3[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["LIMIT", 1]]
+  ↳ app/services/Create/Payment.rb:11:in `block in create'
+  [1m[36mOrder Load (1.5ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."external_code" = $1 AND "orders"."store_id" = $2 AND "orders"."sub_total" = $3 AND "orders"."delivery_fee" = $4 AND "orders"."total" = $5 AND "orders"."dt_order_create" = $6 AND "orders"."postal_code" = $7 AND "orders"."number" = $8 AND "orders"."total_shipping" = $9 AND "orders"."address_id" = $10 AND "orders"."customers_id" = $11 AND "orders"."items_id" = $12 AND "orders"."payments_id" = $13 LIMIT $14[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.9"], ["delivery_fee", "5.14"], ["total", "55.04"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["total_shipping", 5.14], ["address_id", 1], ["customers_id", 1], ["items_id", 1], ["payments_id", 1], ["LIMIT", 1]]
+  ↳ app/services/Create/Order.rb:14:in `make'
+  [1m[35m (0.7ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/api/v2/orders_controller.rb:5:in `create'
+Completed 200 OK in 678ms (Views: 0.5ms | ActiveRecord: 6.6ms | Allocations: 7924)
+
+
