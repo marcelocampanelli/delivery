@@ -14,7 +14,7 @@ module Create
   
     def make_items(params)
       {
-        external_code: params[:external_code],
+        external_code: params[:externalCode],
         name: params[:name],
         price: params[:price],
         quantity: params[:quantity],

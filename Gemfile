@@ -4,7 +4,9 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.1'
-
+gem 'nokogiri', '~> 1.11', '>= 1.11.3'
+gem 'rest-client'
+gem 'rubocop', '~> 1.13', require: false
 gem 'dotenv-rails', groups: [:development, :test]
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 4.1'

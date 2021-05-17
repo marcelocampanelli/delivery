@@ -6,8 +6,7 @@ class Order < ApplicationRecord
   has_many :items
   has_many :payments
 
-  # validates :external_code, :store_id, :sub_total, :delivery_fee,
-  #           :total, :dt_order_create, :postal_code, :number,
-  #           :total_shipping, :address_id, :customers_id, :items_id,
-  #           :payments_id, presence: true
+  validates :external_code, :store_id, :sub_total, :delivery_fee,
+            :total, :dt_order_create, :postal_code, :number,
+            :total_shipping, presence: true
 end
