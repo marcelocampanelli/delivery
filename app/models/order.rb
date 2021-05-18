@@ -8,5 +8,6 @@ class Order < ApplicationRecord
 
   validates :external_code, :store_id, :sub_total, :delivery_fee,
             :total, :dt_order_create, :postal_code, :number,
-            :total_shipping, presence: true
+            :total_shipping, :customers_id, :address_id, :items_id,
+            :payments_id, presence: true
 end

@@ -1,14 +1,25 @@
 # frozen_string_literal: true
 
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe Payment, type: :model do
-  describe "associations" do
-    it { is_expected.to belong_to(:order) }
-  end
+  context 'Create a address' do
+    it 'is valid' do
+      payment = Payment.new(
+        id: 1,
+        modality: 'CREDIT_CARD',
+        value: 55.04
+      )
+      expect(payment).to be_valid
+    end
 
-  describe "validations" do
-    it { is_expected.to validate_presence_of(:modality) }
-    it { is_expected.to validate_presence_of(:value) }
+    it 'is valid' do
+      payment = Payment.new(
+        id: 1,
+        modality: 'CREDIT_CARD',
+        value: ''
+      )
+      expect(payment).to_not be_valid
+    end
   end
 end

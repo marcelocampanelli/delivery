@@ -1,17 +1,29 @@
 # frozen_string_literal: true
 
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe Item, type: :model do
-  describe "associations" do
-    it { is_expected.to belong_to(:order) }
-  end
+  context 'Create a item' do
+    it 'is valid' do
+      item = Item.new(
+        id: 1,
+        external_code: '123123123',
+        name: 'product test',
+        price: 494.0,
+        total: 50,
+        quantity: 1
+      )
+      expect(item).to be_valid
+    end
 
-  describe "validations" do
-    it { is_expected.to validate_presence_of(:external_code) }
-    it { is_expected.to validate_presence_of(:name) }
-    it { is_expected.to validate_presence_of(:price) }
-    it { is_expected.to validate_presence_of(:quantity) }
-    it { is_expected.to validate_presence_of(:total) }
+    it 'is invalid' do
+      item = Item.new(
+        external_code: '123123123',
+        name: '',
+        price: 494.0,
+        quantity: 1
+      )
+      expect(item).to_not be_valid
+    end
   end
 end

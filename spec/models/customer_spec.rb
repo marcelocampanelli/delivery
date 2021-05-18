@@ -1,16 +1,27 @@
 # frozen_string_literal: true
 
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe Customer, type: :model do
-  describe "associations" do
-    it { is_expected.to belong_to(:order) }
-  end
+  context 'Create a customer' do
+    it 'is valid' do
+      customer = Customer.new(
+        id: 1,
+        name: 'JOHN DOE',
+        email: 'john@doe.com',
+        contact: '41999999999',
+        external_code: '123123123'
+      )
+      expect(customer).to be_valid
+    end
 
-  describe "validations" do
-    it { is_expected.to validate_presence_of(:external_id) }
-    it { is_expected.to validate_presence_of(:name) }
-    it { is_expected.to validate_presence_of(:email) }
-    it { is_expected.to validate_presence_of(:contact) }
+    it 'is invalid' do
+      customer = Customer.new(
+        name: 'JOHN DOE',
+        email: '',
+        contact: '41999999999'
+      )
+      expect(customer).to_not be_valid
+    end
   end
 end
