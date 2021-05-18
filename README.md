@@ -14,9 +14,9 @@ Antes de aceitarmos esse frete, precisamos validar os esses pedidos que nos é p
 
 Para rodar o projeto, crie um arquivo chamado "application.yml" em "/config" neste arquivo coloque =>
 
-local_database_user: "nome_usuario_postgres"
-local_database_pass: "senha"
-API_URL: "https://recruitment-api.deliverycenter.com/api/v2/order"
+local_database_user: "nome_usuario_postgres" <br>
+local_database_pass: "senha" <br>
+API_URL: "aqui_link_api_recruitment/api/v2/order" //este link é apenas para o rspec.
 
 
 
